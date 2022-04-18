@@ -72,7 +72,9 @@
             android:hint="Usuario"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:textAlignment="center" />
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:textAlignment="viewStart" />
 
         <Space
             android:layout_width="match_parent"
@@ -98,7 +100,9 @@
             android:hint="Contraseña"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textAlignment="center" />
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:textAlignment="viewStart" />
 
         <Space
             android:layout_width="match_parent"
