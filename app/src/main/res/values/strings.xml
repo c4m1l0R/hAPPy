@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">hAPPy</string>
+    <string name="ususario_no_posible_registro">No se ha podido realizar correctamente el registro</string>
 </resources>

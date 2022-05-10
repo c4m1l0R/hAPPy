@@ -22,7 +22,7 @@ public class LogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        registro = (Button) findViewById(R.id.registro);
+        registro = (Button) findViewById(R.id.log_registro);
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
