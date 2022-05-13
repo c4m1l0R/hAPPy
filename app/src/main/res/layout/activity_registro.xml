@@ -140,7 +140,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="18dp" />
+            android:layout_height="42dp" />
 
         <Button
             android:id="@+id/registrar"
@@ -155,14 +155,6 @@
             android:layout_width="match_parent"
             android:layout_height="13dp" />
 
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/boton_redondo_rojo"
-            android:fontFamily="@font/poppin"
-            android:text="Cancelar"
-            android:textColor="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

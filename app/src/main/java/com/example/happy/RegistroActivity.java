@@ -2,6 +2,7 @@ package com.example.happy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +13,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegistroActivity extends AppCompatActivity {
 
     //botónes
-    Button cancelar;
+    Button registrar;
 
 
     //editTexts
@@ -29,23 +32,24 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        cancelar = (Button) findViewById(R.id.cancel);
+        registrar = (Button) findViewById(R.id.registrar);
 
         editTextBirthDate = (EditText) findViewById(R.id.editTextBirthDate);
 
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent paginaLogging = new Intent(RegistroActivity.this, LogActivity.class);
-                startActivity(paginaLogging);
-            }
-        });
 
         editTextBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 showDatePickerDialog();
+            }
+        });
+
+        registrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mostrarDialogoError();
             }
         });
     }
@@ -63,6 +67,30 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
         newFragment.show(getSupportFragmentManager(), "datePicker");
+
+    }
+
+    private void mostrarDialogoError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        View view = inflater.inflate(R.layout.dialogo_error_registro, null);
+
+        builder.setView(view);
+
+        final AlertDialog dialog= builder.create();
+        dialog.show();
+
+
+        Button aceptarError = (Button) view.findViewById(R.id.button_aceptar_error);
+        aceptarError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
 
     }
 }
