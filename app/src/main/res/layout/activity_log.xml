@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:height="30sp"
             android:fontFamily="@font/poppin"
-            android:text="Usuario"
+            android:text="Email"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -69,7 +69,7 @@
             android:height="30sp"
             android:background="@drawable/insert_text"
             android:ems="10"
-            android:hint="Usuario"
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             android:paddingLeft="20sp"
@@ -108,19 +108,9 @@
             android:layout_width="match_parent"
             android:layout_height="13dp" />
 
-        <TextView
-            android:id="@+id/forgetTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:height="30sp"
-            android:text="¿Olvidaste tu contraseña?"
-            android:textColor="@color/rojo_Basico"
-            android:textStyle="bold"
-            android:textAlignment="textStart" />
-
         <Space
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="59dp"
             android:scrollbarSize="10sp" />
 
         <Button
