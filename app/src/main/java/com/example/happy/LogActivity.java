@@ -10,6 +10,7 @@ import android.widget.Button;
 public class LogActivity extends AppCompatActivity {
 
     Button registro;
+    Button entrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,24 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         registro = (Button) findViewById(R.id.log_registro);
+        entrar = (Button) findViewById(R.id.entrar);
+
+
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent paginaRegistro = new Intent(LogActivity.this, RegistroActivity.class);
                 startActivity(paginaRegistro);
+            }
+        });
+
+        entrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent paginaPerfil = new Intent(LogActivity.this, PerfilActivity.class);
+                startActivity((paginaPerfil));
             }
         });
     }

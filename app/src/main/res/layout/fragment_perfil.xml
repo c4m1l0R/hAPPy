@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentPerfil">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/principal"
+        tools:context=".PerfilActivity"
+        android:orientation="vertical">
+
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fondo_amarillo"
+            android:minHeight="48dp"
+            android:layout_marginLeft="350dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/ajustes"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/textNombrePerfil"
+            android:layout_width="match_parent"
+            android:layout_height="105dp"
+            android:textSize="80dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:fontFamily="@font/englebert"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:text="Tus Próximos cumpleaños:  "
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textColor="@color/rojo_Basico"
+            android:fontFamily="@font/poppin"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -7,6 +7,7 @@
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/boton_redondo.xml" value="0.2703125" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/boton_redondo_azul.xml" value="0.2703125" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/boton_redondo_rojo.xml" value="0.176" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/fondo_amarillo.xml" value="0.2115" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/insert_text.xml" value="0.2703125" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/drawable/popup_blanco.xml" value="0.222" />
@@ -15,9 +16,14 @@
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_log.xml" value="0.2" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_perfil.xml" value="0.264" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_registro.xml" value="0.264" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/dialogo_error_registro.xml" value="0.2" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_bandeja.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_lista.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_perfil.xml" value="0.1" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/popup_layout.xml" value="0.264" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/menu/bottom_navegation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14635416666666667" />
       </map>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/fragmentBandeja"
+        android:icon="@mipmap/bandeja"
+        android:title=""/>
+
+    <item android:id="@+id/fragmentPerfil"
+        android:icon="@mipmap/usuario"
+        android:title=""/>
+
+    <item android:id="@+id/fragmentLista"
+        android:icon="@mipmap/estrella"
+        android:title=""/>
+</menu>
