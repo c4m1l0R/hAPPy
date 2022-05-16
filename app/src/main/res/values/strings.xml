@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">hAPPy</string>
     <string name="ususario_no_posible_registro">No se ha podido realizar correctamente el registro</string>
+    <string name="invalid_mail">Ingrese Email valido</string>
+    <string name="invalid_pwd">Ingrese contraseña mayor a 6 dígitos</string>
+    <string name="invalid_name">Ingrese un nombre valido</string>
+    <string name="invalid_surname">Ingrese un apellido valido</string>
+    <string name="invalid_birthday">Ingrese una fecha de cumpleaños valida</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

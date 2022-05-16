@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HAPPy">
         <activity
+            android:name=".RecuperarContrasenaActivity"
+            android:exported="false" />
+        <activity
             android:name=".PerfilActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/principal"
+    tools:context=".RecuperarContrasenaActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/poppin"
+        android:layout_marginLeft="10dp"
+        android:text="Introduzca su Email:"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/editTextEmailRecuperacion"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/popup_blanco"
+        android:ems="10"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingLeft="10dp"
+        android:inputType="textEmailAddress" />
+
+    <Button
+        android:id="@+id/buttonRestablecer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/boton_redondo_rojo"
+        android:text="Restablecer Contraseña" />
+</LinearLayout>

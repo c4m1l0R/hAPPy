@@ -30,7 +30,6 @@
         android:layout_height="37dp"
         android:fontFamily="@font/poppin"
         android:text="Y que no se te pase"
-
         android:textAlignment="center"
         android:textColor="#F44336"
         android:textSize="15sp"
@@ -108,9 +107,20 @@
             android:layout_width="match_parent"
             android:layout_height="13dp" />
 
+        <Button
+            android:id="@+id/olvidoPwd"
+            android:fontFamily="@font/poppin"
+            android:layout_width="match_parent"
+            android:textAlignment="textStart"
+            android:layout_height="27dp"
+            android:textColor="@color/rojo_Basico"
+            android:layout_marginRight="150dp"
+            android:background="@drawable/fondo_amarillo"
+            android:text="Olvide mi contraseña" />
+
         <Space
             android:layout_width="match_parent"
-            android:layout_height="59dp"
+            android:layout_height="49dp"
             android:scrollbarSize="10sp" />
 
         <Button
