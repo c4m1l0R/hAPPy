@@ -25,14 +25,18 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Range;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -44,6 +48,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText pwd;
     private EditText editTextBirthDate;
     private Button registrar;
+    private ProgressDialog progressDialog;
 
     //FIREBASE
     private FirebaseAuth mAuth;
@@ -76,6 +81,8 @@ public class RegistroActivity extends AppCompatActivity {
         pwd = (EditText) findViewById(R.id.editTextTextPassword);
         editTextBirthDate = (EditText) findViewById(R.id.editTextBirthDate);
         registrar = (Button) findViewById(R.id.registrar);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registrando...");
 
 
         editTextBirthDate.setOnClickListener(new View.OnClickListener() {
@@ -97,20 +104,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                 if(awesomeValidation.validate() && !date.isEmpty()){
 
-                    mAuth.createUserWithEmailAndPassword(mail,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
-
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task){
-
-                            if(task.isSuccessful()){
-                                Toast.makeText(RegistroActivity.this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }else {
-                                String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                                dameToastdeerror(errorCode);
-                            }
-                        }
-                    });
+                    registrarUsuario(mail, pass);
 
                 }else {
                     Toast.makeText(RegistroActivity.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
@@ -120,7 +114,63 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
+    private void registrarUsuario(String pEmail, String pPwd){
 
+        progressDialog.show();
+        mAuth.createUserWithEmailAndPassword(pEmail, pPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+
+                    progressDialog.dismiss();
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    assert  user != null; //AFIRMAMOS QUE EL USUARIO NO SEA NULL
+                    String uid = user.getUid();
+
+                    String uEmail = email.getText().toString().trim();
+                    String uPwd = pwd.getText().toString();
+                    String uNombre = nombre.getText().toString();
+                    String uApellido1 = apellido1.getText().toString();
+                    String uApellido2 = apellido2.getText().toString();
+                    String uBirthday = editTextBirthDate.getText().toString();
+
+                    //MANDAMOS LA INFO A FIREBASE EN UN HASMAP
+                    HashMap<Object, String> hashMap = new HashMap<>();
+                    hashMap.put("email", uEmail);
+                    hashMap.put("uid", uid);
+                    hashMap.put("nombre", uNombre);
+                    hashMap.put("apellido1", uApellido1);
+                    hashMap.put("apellido2", uApellido2);
+                    hashMap.put("birthday", uBirthday);
+
+                    //INICIALIZAMOS LA INSTANCIA DE LA BD DE FIREBASE
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    //CREAMOS LA BD NO RELACIONAL Users
+                    DatabaseReference reference = database.getReference("Users");
+                    reference.child(uid).setValue(hashMap);
+
+                    //INFORMAMOS DEL EXITO DE LA OPERACIÓN
+                    Toast.makeText(RegistroActivity.this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }else {
+
+                    String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                    dameToastdeerror(errorCode);
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(RegistroActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 
     private void showDatePickerDialog(){
 

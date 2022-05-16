@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,15 +63,15 @@ public class LogActivity extends AppCompatActivity {
 
         //AWESOME VALIDATION
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        awesomeValidation.addValidation(this,R.id.editTextTextEmailAddress, Patterns.EMAIL_ADDRESS,R.string.invalid_mail);
-        awesomeValidation.addValidation(this,R.id.editTextTextPassword,".{6,}",R.string.invalid_pwd);
+        awesomeValidation.addValidation(this,R.id.EmailAddressLogText, Patterns.EMAIL_ADDRESS,R.string.invalid_mail);
+        awesomeValidation.addValidation(this,R.id.passwordLogText,".{6,}",R.string.invalid_pwd);
 
 
         //BOTONES Y CUADROS DE TEXTOS
         registro = (Button) findViewById(R.id.log_registro);
         entrar = (Button) findViewById(R.id.entrar);
-        email = (EditText) findViewById(R.id.editTextTextEmailAddress);
-        pwd = (EditText) findViewById(R.id.editTextTextPassword);
+        email = (EditText) findViewById(R.id.EmailAddressLogText);
+        pwd = (EditText) findViewById(R.id.passwordLogText);
         restablecerPwd = (Button) findViewById(R.id.olvidoPwd);
 
         restablecerPwd.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,7 @@ public class LogActivity extends AppCompatActivity {
                 if(awesomeValidation.validate()){
 
                     String mail = email.getText().toString().trim();
-                    String pass = pwd.getText().toString().trim();
+                    String pass = pwd.getText().toString();
 
                     mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -114,6 +116,15 @@ public class LogActivity extends AppCompatActivity {
                             }
 
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Log.v("errorLogin", "jolin");
+
+                            Toast.makeText(LogActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
                     });
                 }
 
@@ -124,7 +135,8 @@ public class LogActivity extends AppCompatActivity {
     private void irAPerfil(){
 
         Intent paginaPerfil = new Intent(LogActivity.this, PerfilActivity.class);
-        startActivity((paginaPerfil));
+        paginaPerfil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(paginaPerfil);
 
     }
 
