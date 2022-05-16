@@ -138,6 +138,7 @@ public class RegistroActivity extends AppCompatActivity {
                     //MANDAMOS LA INFO A FIREBASE EN UN HASMAP
                     HashMap<Object, String> hashMap = new HashMap<>();
                     hashMap.put("email", uEmail);
+                    hashMap.put("pwd", uPwd);
                     hashMap.put("uid", uid);
                     hashMap.put("nombre", uNombre);
                     hashMap.put("apellido1", uApellido1);

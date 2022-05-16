@@ -137,6 +137,7 @@ public class LogActivity extends AppCompatActivity {
         Intent paginaPerfil = new Intent(LogActivity.this, PerfilActivity.class);
         paginaPerfil.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(paginaPerfil);
+        finish();
 
     }
 
