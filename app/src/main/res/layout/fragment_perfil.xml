@@ -4,49 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentPerfil">
+    tools:context=".FragmentPerfil"
+    android:background="@color/principal">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/text_nombreUser"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/principal"
-        tools:context=".PerfilActivity"
+        android:layout_height="110dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/englebert"
+        android:text=" "
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="80dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="155dp"
+        android:layout_marginRight="40dp"
+        android:fontFamily="@font/poppin"
+        android:text="Tus próximos cumpleaños"
+        android:textAlignment="center"
+        android:textColor="@color/rojo_Basico"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="391dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
-
-        <ImageButton
-            android:id="@+id/imageButton"
+        <Button
+            android:id="@+id/bottom_cumple1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/fondo_amarillo"
-            android:minHeight="48dp"
-            android:layout_marginLeft="350dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ajustes"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <TextView
-            android:id="@+id/textNombrePerfil"
-            android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:textSize="80dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:background="@drawable/popup_blanco"
+            android:text="cam"
+            android:fontFamily="@font/poppin"
             android:textAlignment="center"
-            android:fontFamily="@font/englebert"
-            android:text="TextView" />
+            />
 
-        <TextView
-            android:id="@+id/textPerfil"
+        <Button
+            android:id="@+id/bottom_cumple2"
             android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:text="Tus Próximos cumpleaños:  "
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/popup_blanco"
+            android:text="cam"
+            android:fontFamily="@font/poppin"
             android:textAlignment="center"
-            android:textSize="16sp"
-            android:textColor="@color/rojo_Basico"
-            android:fontFamily="@font/poppin"/>
-    </LinearLayout>
+            />
+
+        <Button
+            android:id="@+id/bottom_cumple3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/popup_blanco"
+            android:text="cam"
+            android:fontFamily="@font/poppin"
+            android:textAlignment="center"
+            />
+
+        <Button
+            android:id="@+id/bottom_cumple4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/popup_blanco"
+            android:text="cam"
+            android:fontFamily="@font/poppin"
+            android:textAlignment="center"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

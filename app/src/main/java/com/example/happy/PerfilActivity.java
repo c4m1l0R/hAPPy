@@ -30,6 +30,8 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        loadFragment(fragmentPerfil);
+
         BottomNavigationView navegation = findViewById(R.id.bottom_navigation);
         navegation.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
 

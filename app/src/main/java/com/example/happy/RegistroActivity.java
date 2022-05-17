@@ -84,7 +84,6 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registrando...");
 
-
         editTextBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
