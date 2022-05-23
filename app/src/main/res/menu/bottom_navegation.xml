@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/fragmentBandeja"
-        android:icon="@mipmap/bandeja"
-        android:title=""/>
+        android:icon="@drawable/ic_baseline_book_24"
+        android:title="Bandeja"/>
 
     <item android:id="@+id/fragmentPerfil"
-        android:icon="@mipmap/usuario"
-        android:title=""/>
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Perfil"/>
 
     <item android:id="@+id/fragmentLista"
-        android:icon="@mipmap/estrella"
-        android:title=""/>
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="Lista"/>
 </menu>

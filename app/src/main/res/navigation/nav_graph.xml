@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentPerfil">
+
+    <fragment
+        android:id="@+id/fragmentPerfil"
+        android:name="com.example.happy.FragmentPerfil"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/fragmentBandeja"
+        android:name="com.example.happy.FragmentBandeja"
+        android:label="fragment_bandeja"
+        tools:layout="@layout/fragment_bandeja" />
+    <fragment
+        android:id="@+id/fragmentLista"
+        android:name="com.example.happy.FragmentLista"
+        android:label="fragment_lista"
+        tools:layout="@layout/fragment_lista" />
+    <fragment
+        android:id="@+id/fragmentAjustes"
+        android:name="com.example.happy.FragmentAjustes"
+        android:label="fragment_ajustes"
+        tools:layout="@layout/fragment_ajustes" />
+</navigation>

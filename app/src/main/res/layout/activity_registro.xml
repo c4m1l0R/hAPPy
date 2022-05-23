@@ -160,9 +160,7 @@
         android:layout_marginRight="50dp"
         android:paddingLeft="10dp"
         android:background="@drawable/popup_blanco"
-        android:clickable="true"
         android:ems="10"
-        android:focusable="false"
         android:inputType="date"
         android:minHeight="48dp"
         tools:ignore="SpeakableTextPresentCheck" />

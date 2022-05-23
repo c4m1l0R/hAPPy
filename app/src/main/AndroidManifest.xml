@@ -13,13 +13,11 @@
             android:name=".RecuperarContrasenaActivity"
             android:exported="false" />
         <activity
-            android:name=".PerfilActivity"
+            android:name=".HomeActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="false" />
         <activity
             android:name=".RegistroActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".LogActivity"

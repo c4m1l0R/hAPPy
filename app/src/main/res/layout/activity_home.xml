@@ -5,52 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/principal"
-    tools:context=".HomeActivity">
+    tools:context=".HomeActivity" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="296dp"
-        android:layout_height="81dp"
-        android:fontFamily="@font/poppin"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <fragment
+        android:id="@+id/activity_home_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="415dp"
+        android:layout_height="704dp"
+        app:defaultNavHost="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.105" />
+        app:navGraph="@navigation/nav_graph" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="215dp"
-        android:layout_height="30dp"
-        android:background="@drawable/insert_text"
-        android:fontFamily="@font/poppin"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="16sp"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/activity_home_bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/BottomNavegation"
+        app:menu="@menu/bottom_navegation"/>
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="248dp"
-        android:layout_height="32dp"
-        android:fontFamily="@font/poppin"
-        android:text="Tus próximos cumpleaños:"
-        android:textAlignment="center"
-        android:textColor="@color/rojo_Basico"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.304" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

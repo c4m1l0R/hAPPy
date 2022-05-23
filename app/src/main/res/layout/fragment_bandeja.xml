@@ -9,6 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="bandeja" />
+        android:textSize="50dp"
+        android:text="Hola" />
 
 </FrameLayout>

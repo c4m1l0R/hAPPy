@@ -13,19 +13,20 @@
         android:id="@+id/text_nombreUser"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/englebert"
         android:text=" "
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="80dp" />
+        android:textSize="80dp"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/textViewPerfil"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="190dp"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/poppin"
         android:text="Tus próximos cumpleaños"
@@ -37,7 +38,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="391dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="230dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
@@ -81,11 +82,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/popup_blanco"
-            android:text="cam"
+            android:text="Cerrar Sesionxxzs"
             android:fontFamily="@font/poppin"
             android:textAlignment="center"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ImageView
+        android:id="@+id/imageViewAjustes"
+        android:layout_width="50dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="328dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/ic_baseline_settings_24" />
 
 </FrameLayout>

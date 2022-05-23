@@ -84,13 +84,6 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registrando...");
 
-        editTextBirthDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showDatePickerDialog();
-            }
-        });
 
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,21 +165,6 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-    private void showDatePickerDialog(){
-
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                // +1 because January is zero
-                final String selectedDate = day + " / " + (month+1) + " / " + year;
-                editTextBirthDate.setText(selectedDate);
-            }
-        });
-
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-
-    }
 
 
     private void dameToastdeerror(String error) {
