@@ -152,7 +152,7 @@ public class LogActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-        
+
         return super.onKeyDown(keyCode, event);
     }
 

@@ -23,21 +23,19 @@
         android:id="@+id/fragmentLista"
         android:name="com.example.happy.FragmentLista"
         android:label="fragment_lista"
-        tools:layout="@layout/fragment_lista" />
+        tools:layout="@layout/fragment_lista" >
+        <action
+            android:id="@+id/action_fragmentLista_to_fragmentAnadirRegalo"
+            app:destination="@id/fragmentAnadirRegalo" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentAjustes"
         android:name="com.example.happy.FragmentAjustes"
         android:label="fragment_ajustes"
-        tools:layout="@layout/fragment_ajustes" >
-        <action
-            android:id="@+id/action_fragmentAjustes_to_logActivity"
-            app:destination="@id/logActivity"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />/>
-    </fragment>
-    <activity
-        android:id="@+id/logActivity"
-        android:name="com.example.happy.LogActivity"
-        android:label="activity_log"
-        tools:layout="@layout/activity_log" />
+        tools:layout="@layout/fragment_ajustes" />
+    <fragment
+        android:id="@+id/fragmentAnadirRegalo"
+        android:name="com.example.happy.FragmentAnadirRegalo"
+        android:label="fragment_anadir_regalo"
+        tools:layout="@layout/fragment_anadir_regalo" />
 </navigation>

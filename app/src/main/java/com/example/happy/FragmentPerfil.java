@@ -40,7 +40,6 @@ public class FragmentPerfil extends Fragment {
 
     //RECURSOS
     private TextView textNombreUser;
-    private Button cerrarSesion;
     private ImageView ajustes;
 
 
@@ -76,7 +75,6 @@ public class FragmentPerfil extends Fragment {
 
 
         //RECURSOS
-        cerrarSesion = view.findViewById(R.id.bottom_cumple4);
         ajustes = view.findViewById(R.id.imageViewAjustes);
         textNombreUser = view.findViewById(R.id.text_nombreUser);
 
