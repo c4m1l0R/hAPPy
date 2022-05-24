@@ -72,6 +72,7 @@ public class RegistroActivity extends AppCompatActivity {
         awesomeValidation.addValidation(this, R.id.editTextTextName, "[a-zA-Z\\s]+", R.string.invalid_name);
         awesomeValidation.addValidation(this, R.id.editTextTextSurname1, "[a-zA-Z\\s]+", R.string.invalid_surname);
         awesomeValidation.addValidation(this, R.id.editTextTextSurname2, "[a-zA-Z\\s]+", R.string.invalid_surname);
+        awesomeValidation.addValidation(this, R.id.editTextBirthDate, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.invalid_birthday);
 
         //RECURSOS
         nombre = (EditText) findViewById(R.id.editTextTextName);
@@ -99,7 +100,7 @@ public class RegistroActivity extends AppCompatActivity {
                     registrarUsuario(mail, pass);
 
                 }else {
-                    Toast.makeText(RegistroActivity.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroActivity.this, "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -242,6 +243,10 @@ public class RegistroActivity extends AppCompatActivity {
                 Toast.makeText(RegistroActivity.this, "La contraseña proporcionada no es válida..", Toast.LENGTH_LONG).show();
                 pwd.setError("La contraseña no es válida, debe tener al menos 6 caracteres");
                 pwd.requestFocus();
+                break;
+
+            default:
+                Toast.makeText(RegistroActivity.this, "Error Desconocido. Pongase en contacto con el administrador", Toast.LENGTH_LONG).show();
                 break;
 
         }

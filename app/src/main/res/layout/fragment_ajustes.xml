@@ -139,7 +139,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:text="Fecha de cumpleaños" />
+            android:text="Cumpleaños (DD/MM/YYYY)" />
 
         <EditText
             android:id="@+id/birthdayAjustes"

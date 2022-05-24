@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +56,9 @@ public class FragmentAjustes extends Fragment {
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    //AWESOME VALIDATION
+    AwesomeValidation awesomeValidation;
 
     public FragmentAjustes() {
         // Required empty public constructor
@@ -97,6 +108,15 @@ public class FragmentAjustes extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
+        //AWESOME VALIDATION
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(getActivity(), R.id.nombreAjustes, "[a-zA-Z\\s]+", R.string.invalid_name);
+        awesomeValidation.addValidation(getActivity(), R.id.apellido1Ajustes, "[a-zA-Z\\s]+", R.string.invalid_surname);
+        awesomeValidation.addValidation(getActivity(), R.id.apellido2Ajustes, "[a-zA-Z\\s]+", R.string.invalid_surname);
+        awesomeValidation.addValidation(getActivity(),R.id.contrasenaAjustes,".{6,}",R.string.invalid_pwd);
+        awesomeValidation.addValidation(getActivity(), R.id.birthdayAjustes, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.invalid_birthday);
+
+
         //CAMPOS AJUSTES
         nombre = view.findViewById(R.id.nombreAjustes);
         apellido1 = view.findViewById(R.id.apellido1Ajustes);
@@ -105,10 +125,12 @@ public class FragmentAjustes extends Fragment {
         birthday = view.findViewById(R.id.birthdayAjustes);
 
         Button botonCerrarSesion= view.findViewById(R.id.cerrarSesion);
-
+        Button botonActualizarDatos = view.findViewById(R.id.confirmarCambiosAjustes);
 
         //MÉTODOS
         cargarDatos();
+
+
         //EVENTOS
         botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +138,25 @@ public class FragmentAjustes extends Fragment {
 
                 firebaseAuth.signOut();
                 Intent intent = new Intent(getActivity(), LogActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+
+            }
+        });
+
+        botonActualizarDatos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(awesomeValidation.validate()){
+
+                    actualizarDatos();
+
+                }else{
+
+                    Toast.makeText(getActivity(), "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }
@@ -144,6 +184,31 @@ public class FragmentAjustes extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+    }
+
+    private void actualizarDatos(){
+
+        Map<String, Object> personaMap = new HashMap<>();
+        personaMap.put("nombre", nombre.getText().toString().trim());
+        personaMap.put("apellido1", apellido1.getText().toString().trim());
+        personaMap.put("apellido2", apellido2.getText().toString().trim());
+        personaMap.put("pwd", contrasena.getText().toString().trim());
+        personaMap.put("birthday", birthday.getText().toString().trim());
+
+        databaseReference.child(firebaseUser.getUid()).updateChildren(personaMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+                Toast.makeText(getActivity(), "Actualización realizada con exito", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getActivity(), "Error en la actualización", Toast.LENGTH_SHORT).show();
             }
         });
 

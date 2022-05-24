@@ -9,7 +9,11 @@
         android:id="@+id/fragmentPerfil"
         android:name="com.example.happy.FragmentPerfil"
         android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_fragmentPerfil_to_fragmentAjustes"
+            app:destination="@id/fragmentAjustes" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentBandeja"
         android:name="com.example.happy.FragmentBandeja"
@@ -24,5 +28,16 @@
         android:id="@+id/fragmentAjustes"
         android:name="com.example.happy.FragmentAjustes"
         android:label="fragment_ajustes"
-        tools:layout="@layout/fragment_ajustes" />
+        tools:layout="@layout/fragment_ajustes" >
+        <action
+            android:id="@+id/action_fragmentAjustes_to_logActivity"
+            app:destination="@id/logActivity"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />/>
+    </fragment>
+    <activity
+        android:id="@+id/logActivity"
+        android:name="com.example.happy.LogActivity"
+        android:label="activity_log"
+        tools:layout="@layout/activity_log" />
 </navigation>

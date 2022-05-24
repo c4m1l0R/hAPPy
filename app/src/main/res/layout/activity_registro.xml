@@ -146,7 +146,7 @@
         android:layout_width="match_parent"
         android:layout_height="31dp"
         android:fontFamily="@font/poppin"
-        android:text="Cumpleaños"
+        android:text="Cumpleaños (DD/MM/YYYY)"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
