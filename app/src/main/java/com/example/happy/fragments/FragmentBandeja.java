@@ -1,38 +1,21 @@
-package com.example.happy;
+package com.example.happy.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.happy.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentLista#newInstance} factory method to
+ * Use the {@link FragmentBandeja#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentLista extends Fragment {
-
-    //FIREBASE
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-
-
-
+public class FragmentBandeja extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +26,7 @@ public class FragmentLista extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentLista() {
+    public FragmentBandeja() {
         // Required empty public constructor
     }
 
@@ -53,11 +36,11 @@ public class FragmentLista extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentLista.
+     * @return A new instance of fragment FragmentBandeja.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentLista newInstance(String param1, String param2) {
-        FragmentLista fragment = new FragmentLista();
+    public static FragmentBandeja newInstance(String param1, String param2) {
+        FragmentBandeja fragment = new FragmentBandeja();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,21 +61,6 @@ public class FragmentLista extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState );
-
-        ImageView botonAnadirRegalo = view.findViewById(R.id.botonAnadirRegalo);
-
-        botonAnadirRegalo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Navigation.findNavController(v).navigate(R.id.fragmentAnadirRegalo);
-            }
-        });
+        return inflater.inflate(R.layout.fragment_bandeja, container, false);
     }
 }

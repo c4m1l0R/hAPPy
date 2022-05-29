@@ -1,15 +1,25 @@
-package com.example.happy;
+package com.example.happy.modelos;
 
 public class Regalo {
 
     private String nombre = "";
     private String link = "";
+    private String idRegalo = "";
 
     public Regalo(){ }
 
     public Regalo(String nombre, String link) {
+
         this.nombre = nombre;
         this.link = link;
+    }
+
+    public Regalo(String nombre, String link, String idRegalo){
+
+        this.nombre = nombre;
+        this.link = link;
+        this.idRegalo = idRegalo;
+
     }
 
 
@@ -27,5 +37,13 @@ public class Regalo {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getIdRegalo() {
+        return idRegalo;
+    }
+
+    public void setIdRegalo(String idRegalo) {
+        this.idRegalo = idRegalo;
     }
 }

@@ -1,10 +1,11 @@
-package com.example.happy;
+package com.example.happy.fragments;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.happy.R;
+import com.example.happy.modelos.Regalo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -20,9 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +98,7 @@ public class FragmentAnadirRegalo extends Fragment {
          nombreRegalo = view.findViewById(R.id.nombreRegalo);
          linkRegalo = view.findViewById(R.id.linkRegalo);
          Button botonAnadirRegalo = view.findViewById(R.id.botonConfirmarAnadirRegalo);
+         Button cancelarAnadirRegalo = view.findViewById(R.id.botonCancelarRegalo);
 
         //FIREBASE
         firebaseAuth = FirebaseAuth.getInstance();
@@ -117,6 +118,8 @@ public class FragmentAnadirRegalo extends Fragment {
                     public void onSuccess(Void unused) {
 
                         Toast.makeText(getActivity(), "Se ha añadido correctamente tu regalo", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.fragmentLista);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -127,35 +130,16 @@ public class FragmentAnadirRegalo extends Fragment {
                 });
             }
         });
-    }
 
-    /**
-    private void anadirRegalo(){
-
-        assert  firebaseUser != null; //AFIRMAMOS QUE EL USUARIO NO SEA NULL
-
-        HashMap<String, Object> regaloMap = new HashMap<>();
-        regaloMap.put("nombreRegalo", nombreRegalo.getText().toString().trim());
-        regaloMap.put("linkRegalo", linkRegalo.getText().toString().trim());
-
-        databaseReference.child(firebaseUser.getUid()).child("regalos").setValue(regaloMap);
-
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        cancelarAnadirRegalo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Void unused) {
+            public void onClick(View v) {
 
-                Toast.makeText(getActivity(), "Se ha añadido correctamente tu regalo", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Toast.makeText(getActivity(), "Error al añadir tu regalo", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(v).navigate(R.id.fragmentLista);
             }
         });
-
     }
-**/
+
     private Task<Void> add(Regalo regalo){
 
         return databaseReference.push().setValue(regalo);

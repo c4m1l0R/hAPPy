@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentLista">
+    tools:context=".fragments.FragmentLista">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -45,11 +45,11 @@
                 android:layout_marginRight="175dp"
                 android:src="@drawable/ic_baseline_add_to_photos_24" />
 
-            <Button
-                android:id="@+id/button"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reciclerViewSingle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
     </ScrollView>

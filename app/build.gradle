@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.basgeekball:awesome-validation:4.3'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-database'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
 
     //NAVEGATION
     def fragment_version = "1.2.5"

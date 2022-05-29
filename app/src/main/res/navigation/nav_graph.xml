@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentPerfil"
-        android:name="com.example.happy.FragmentPerfil"
+        android:name="com.example.happy.fragments.FragmentPerfil"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentBandeja"
-        android:name="com.example.happy.FragmentBandeja"
+        android:name="com.example.happy.fragments.FragmentBandeja"
         android:label="fragment_bandeja"
         tools:layout="@layout/fragment_bandeja" />
     <fragment
         android:id="@+id/fragmentLista"
-        android:name="com.example.happy.FragmentLista"
+        android:name="com.example.happy.fragments.FragmentLista"
         android:label="fragment_lista"
         tools:layout="@layout/fragment_lista" >
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentAjustes"
-        android:name="com.example.happy.FragmentAjustes"
+        android:name="com.example.happy.fragments.FragmentAjustes"
         android:label="fragment_ajustes"
         tools:layout="@layout/fragment_ajustes" />
     <fragment
         android:id="@+id/fragmentAnadirRegalo"
-        android:name="com.example.happy.FragmentAnadirRegalo"
+        android:name="com.example.happy.fragments.FragmentAnadirRegalo"
         android:label="fragment_anadir_regalo"
         tools:layout="@layout/fragment_anadir_regalo" />
 </navigation>
