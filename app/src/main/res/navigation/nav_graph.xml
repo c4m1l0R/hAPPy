@@ -18,7 +18,11 @@
         android:id="@+id/fragmentBandeja"
         android:name="com.example.happy.fragments.FragmentBandeja"
         android:label="fragment_bandeja"
-        tools:layout="@layout/fragment_bandeja" />
+        tools:layout="@layout/fragment_bandeja" >
+        <action
+            android:id="@+id/action_fragmentBandeja_to_fragmentAnadirAmigo"
+            app:destination="@id/fragmentAnadirAmigo" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentLista"
         android:name="com.example.happy.fragments.FragmentLista"
@@ -38,4 +42,9 @@
         android:name="com.example.happy.fragments.FragmentAnadirRegalo"
         android:label="fragment_anadir_regalo"
         tools:layout="@layout/fragment_anadir_regalo" />
+    <fragment
+        android:id="@+id/fragmentAnadirAmigo"
+        android:name="com.example.happy.fragments.FragmentAnadirAmigo"
+        android:label="fragment_anadir_amigo"
+        tools:layout="@layout/fragment_anadir_amigo" />
 </navigation>

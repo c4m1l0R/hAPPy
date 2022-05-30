@@ -22,12 +22,14 @@
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/activity_registro.xml" value="0.264" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/dialogo_error_registro.xml" value="0.2" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_ajustes.xml" value="0.264" />
-        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_anadir_regalo.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_bandeja.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_anadir_amigo.xml" value="0.2368659420289855" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_anadir_regalo.xml" value="0.1" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_bandeja.xml" value="0.1" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_hola.xml" value="0.11354166666666667" />
-        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_lista.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_lista.xml" value="0.1" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/fragment_perfil.xml" value="0.264" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/popup_layout.xml" value="0.264" />
+        <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/view_amigo_single.xml" value="0.2368659420289855" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/layout/view_regalo_single.xml" value="0.2" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/menu/bottom_navegation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/camil/AndroidStudioProjects/hAPPy/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2" />

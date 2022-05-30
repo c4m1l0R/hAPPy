@@ -146,6 +146,9 @@ public class RegistroActivity extends AppCompatActivity {
 
                     //INFORMAMOS DEL EXITO DE LA OPERACIÓN
                     Toast.makeText(RegistroActivity.this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegistroActivity.this, LogActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     finish();
 
                 }else {

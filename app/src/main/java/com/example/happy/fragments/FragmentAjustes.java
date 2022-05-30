@@ -18,6 +18,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.happy.LogActivity;
 import com.example.happy.R;
+import com.example.happy.RegistroActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +58,7 @@ public class FragmentAjustes extends Fragment {
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private DatabaseReference dbr;
 
     //AWESOME VALIDATION
     AwesomeValidation awesomeValidation;
@@ -108,6 +110,7 @@ public class FragmentAjustes extends Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+        dbr = firebaseDatabase.getReference("Users").child(firebaseUser.getUid());
 
         //AWESOME VALIDATION
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
@@ -127,6 +130,7 @@ public class FragmentAjustes extends Fragment {
 
         Button botonCerrarSesion= view.findViewById(R.id.cerrarSesion);
         Button botonActualizarDatos = view.findViewById(R.id.confirmarCambiosAjustes);
+        Button botonDeBajaPerfil = view.findViewById(R.id.bajaPerfil);
 
         //MÉTODOS
         cargarDatos();
@@ -158,6 +162,29 @@ public class FragmentAjustes extends Fragment {
                     Toast.makeText(getActivity(), "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show();
 
                 }
+            }
+        });
+
+        botonDeBajaPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dbr.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                        Toast.makeText(v.getContext(), "Se ha eliminado tu perfil", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), LogActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(v.getContext(), "No se ha podido eliminar tu perfil. Ponte en contacto con el administrador.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
