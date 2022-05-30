@@ -1,5 +1,8 @@
 package com.example.happy.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -42,6 +45,8 @@ public class FragmentPerfil extends Fragment {
     //RECURSOS
     private TextView textNombreUser;
     private ImageView ajustes;
+    private TextView codigoHappy;
+    private ImageView copyCodigo;
 
 
     public FragmentPerfil() {
@@ -78,6 +83,8 @@ public class FragmentPerfil extends Fragment {
         //RECURSOS
         ajustes = view.findViewById(R.id.imageViewAjustes);
         textNombreUser = view.findViewById(R.id.text_nombreUser);
+        codigoHappy = view.findViewById(R.id.codigoHappy);
+        copyCodigo = view.findViewById(R.id.copyCodigoHappy);
 
         //Métodos
         cargarDatos();
@@ -86,6 +93,18 @@ public class FragmentPerfil extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.fragmentAjustes);
+            }
+        });
+
+        copyCodigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("TextView", codigoHappy.getText().toString());
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(getActivity(), "Se ha copiado tu código hAPPy", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -103,7 +122,9 @@ public class FragmentPerfil extends Fragment {
                 for(DataSnapshot ds : snapshot.getChildren()){
 
                     String nombreUser = ""+ ds.child("nombre").getValue();
+                    String uid = ""+ ds.child("uid").getValue();
                     textNombreUser.setText(nombreUser);
+                    codigoHappy.setText(uid);
                 }
             }
 
