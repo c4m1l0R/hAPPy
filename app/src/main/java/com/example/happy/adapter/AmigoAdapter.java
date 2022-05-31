@@ -1,7 +1,6 @@
 package com.example.happy.adapter;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy.R;
 import com.example.happy.modelos.Amigo;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> {
+public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> implements View.OnClickListener {
 
     private int resource;
     private ArrayList<Amigo> amigosList;
@@ -33,6 +31,9 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    //referencias para comunicar fragments
+
 
     public AmigoAdapter(ArrayList<Amigo> amigosList, int resource){
 
@@ -46,6 +47,7 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
     public AmigoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+        view.setOnClickListener(this);
         return new AmigoAdapter.ViewHolder(view);
     }
 
@@ -60,45 +62,10 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                builder.setTitle("Eliminar Amigo");
-                builder.setMessage("¿Deseas eliminar este amigo?");
+                Bundle bundle = new Bundle();
+                bundle.putString("idAmigo", holder.idAmigo.getText().toString());
+                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);
 
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        firebaseAuth = FirebaseAuth.getInstance();
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        firebaseDatabase = FirebaseDatabase.getInstance();
-                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("amigos");
-
-                        databaseReference.child(holder.idAmigo.getText().toString()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-
-                                Toast.makeText(v.getContext(), "Se ha eliminado tu regalo", Toast.LENGTH_SHORT).show();
-                                amigosList.clear();
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                                Toast.makeText(v.getContext(), "No se ha podido eliminar tu regalo", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.show();
 
             }
         });
@@ -109,6 +76,21 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return amigosList.size();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        if(listener !=null){
+
+            listener.onClick(v);
+        }
+
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
     }
 
 
@@ -127,5 +109,7 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
         }
 
     }
+
+
 
 }

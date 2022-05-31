@@ -18,9 +18,7 @@ import android.widget.Toast;
 
 import com.example.happy.R;
 import com.example.happy.adapter.AmigoAdapter;
-import com.example.happy.adapter.RegaloAdapter;
 import com.example.happy.modelos.Amigo;
-import com.example.happy.modelos.Regalo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +49,7 @@ public class FragmentBandeja extends Fragment {
     private AmigoAdapter mAdapter;
     private ArrayList<Amigo> mAmigosList = new ArrayList<>();
     private ProgressDialog progressDialog;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,6 +108,7 @@ public class FragmentBandeja extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
+        mAdapter = new AmigoAdapter(mAmigosList,R.layout.view_amigo_single);
         mRecycler = view.findViewById(R.id.reciclerViewSingleAmigos);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -123,9 +123,12 @@ public class FragmentBandeja extends Fragment {
         });
 
         getAmigosFromFirebase(view);
+
+
     }
 
     private void getAmigosFromFirebase(View v){
+
 
         databaseReference.child(firebaseUser.getUid()).child("amigos").addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,6 +150,8 @@ public class FragmentBandeja extends Fragment {
                 }else{
 
                     Toast.makeText(getActivity(), "No se han añadido aún amigos", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos);
+
                 }
 
             }
@@ -157,6 +162,7 @@ public class FragmentBandeja extends Fragment {
             }
         });
 
+
     }
 
     @Override
@@ -165,4 +171,6 @@ public class FragmentBandeja extends Fragment {
 
         mAmigosList.clear();
     }
+
+
 }

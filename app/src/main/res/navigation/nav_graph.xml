@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_fragmentBandeja_to_fragmentAnadirAmigo"
             app:destination="@id/fragmentAnadirAmigo" />
+        <action
+            android:id="@+id/action_fragmentBandeja_to_fragmentPerfilAmigos"
+            app:destination="@id/fragmentPerfilAmigos" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLista"
@@ -47,4 +50,9 @@
         android:name="com.example.happy.fragments.FragmentAnadirAmigo"
         android:label="fragment_anadir_amigo"
         tools:layout="@layout/fragment_anadir_amigo" />
+    <fragment
+        android:id="@+id/fragmentPerfilAmigos"
+        android:name="com.example.happy.fragments.FragmentPerfilAmigos"
+        android:label="fragment_perfil_amigos"
+        tools:layout="@layout/fragment_perfil_amigos" />
 </navigation>
