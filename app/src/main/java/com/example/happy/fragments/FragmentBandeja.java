@@ -150,7 +150,7 @@ public class FragmentBandeja extends Fragment {
                 }else{
 
                     Toast.makeText(getActivity(), "No se han añadido aún amigos", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos);
+                    Navigation.findNavController(v).navigate(R.id.fragmentAnadirAmigo);
 
                 }
 

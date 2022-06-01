@@ -54,7 +54,15 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
         holder.nombre.setText(regalo.getNombre());
         holder.link.setText(regalo.getLink());
         holder.idRegalo.setText(regalo.getIdRegalo());
-        holder.miLinearLayout.setBackgroundColor(Color.GREEN);
+        holder.regaloReservado.setText(regalo.getRegaloReservado());
+
+        if(regalo.getRegaloReservado().equalsIgnoreCase("true")){
+
+            holder.nombre.setText(holder.nombre.getText()+"   RESERVADO ");
+            holder.link.setTextColor(Color.RED);
+            holder.nombre.setTextColor(Color.RED);
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +70,7 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
                 builder.setTitle("Agregar Regalo");
-                builder.setMessage("¿Deseas agregar este regalo a tu lista?");
+                builder.setMessage("¿Deseas adjudicarte este regalo?");
 
                 builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
@@ -94,7 +102,7 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
         private TextView nombre;
         private TextView link;
         private TextView idRegalo;
-        private LinearLayout miLinearLayout;
+        private TextView regaloReservado;
         public View view;
 
         public ViewHolder(View view){
@@ -104,7 +112,7 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
             this.nombre = (TextView) view.findViewById(R.id.nombre);
             this.link = (TextView) view.findViewById(R.id.link);
             this.idRegalo = (TextView) view.findViewById(R.id.idRegalo);
-            this.miLinearLayout = (LinearLayout) view.findViewById(R.id.miLinearLayout);
+            this.regaloReservado = (TextView) view.findViewById(R.id.regaloReservado);
         }
 
     }

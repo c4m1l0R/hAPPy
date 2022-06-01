@@ -216,7 +216,8 @@ public class FragmentPerfilAmigos extends Fragment {
                         String nombre = ds.child("nombre").getValue().toString();
                         String link = ds.child("link").getValue().toString();
                         String idRegalo = ds.getKey();
-                        mRegalosList.add(new Regalo(nombre, link, idRegalo));
+                        String regaloReservado = ds.child("regaloReservado").getValue().toString();
+                        mRegalosList.add(new Regalo(nombre, link, idRegalo, regaloReservado));
                     }
 
                     mAdapter = new RegaloAdapterAmigo(mRegalosList,R.layout.view_regalo_single);

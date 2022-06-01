@@ -112,7 +112,7 @@ public class FragmentAnadirRegalo extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Regalo regalo = new Regalo(nombreRegalo.getText().toString().trim(), linkRegalo.getText().toString().trim());
+                Regalo regalo = new Regalo(nombreRegalo.getText().toString().trim(), linkRegalo.getText().toString().trim(), "false");
                 add(regalo).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

@@ -5,20 +5,24 @@ public class Regalo {
     private String nombre = "";
     private String link = "";
     private String idRegalo = "";
+    private String regaloReservado= "";
 
     public Regalo(){ }
 
-    public Regalo(String nombre, String link) {
+    public Regalo(String nombre, String link, String regaloReservado) {
 
         this.nombre = nombre;
         this.link = link;
+        this.regaloReservado = regaloReservado;
+
     }
 
-    public Regalo(String nombre, String link, String idRegalo){
+    public Regalo(String nombre, String link, String idRegalo, String regaloReservado){
 
         this.nombre = nombre;
         this.link = link;
         this.idRegalo = idRegalo;
+        this.regaloReservado = regaloReservado;
 
     }
 
@@ -45,5 +49,13 @@ public class Regalo {
 
     public void setIdRegalo(String idRegalo) {
         this.idRegalo = idRegalo;
+    }
+
+    public String getRegaloReservado() {
+        return regaloReservado;
+    }
+
+    public void setRegaloReservado(String regaloReservado) {
+        this.regaloReservado = regaloReservado;
     }
 }

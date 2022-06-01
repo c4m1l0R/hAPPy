@@ -98,16 +98,14 @@ public class FragmentAnadirAmigo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //RECURSOS
-        codigoAmigo = view.findViewById(R.id.codigoAmigo);
         Button botonAnadirAmigo = view.findViewById(R.id.botonConfirmarAmigo);
+        codigoAmigo = view.findViewById(R.id.codigoAmigo);
 
         //FIREBASE
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
-        dbr = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("amigos");
-
         botonAnadirAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,10 +140,12 @@ public class FragmentAnadirAmigo extends Fragment {
                                 }
                             });
 
+
                         }else{
 
                             Toast.makeText(getActivity(), "El código de usuario no existe", Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override
@@ -158,6 +158,7 @@ public class FragmentAnadirAmigo extends Fragment {
         });
 
     }
+
 
     private Task<Void> add(Amigo amigo){
 

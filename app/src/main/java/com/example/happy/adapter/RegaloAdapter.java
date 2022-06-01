@@ -2,14 +2,17 @@ package com.example.happy.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,6 +63,15 @@ public class RegaloAdapter extends RecyclerView.Adapter<RegaloAdapter.ViewHolder
         holder.nombre.setText(regalo.getNombre());
         holder.link.setText(regalo.getLink());
         holder.idRegalo.setText(regalo.getIdRegalo());
+        holder.regaloReservado.setText(regalo.getRegaloReservado());
+
+        if(regalo.getRegaloReservado().equalsIgnoreCase("true")){
+
+            holder.nombre.setText(holder.nombre.getText()+"   RESERVADO ");
+            holder.link.setTextColor(Color.RED);
+            holder.nombre.setTextColor(Color.RED);
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +131,7 @@ public class RegaloAdapter extends RecyclerView.Adapter<RegaloAdapter.ViewHolder
         private TextView nombre;
         private TextView link;
         private TextView idRegalo;
+        private TextView regaloReservado;
         public View view;
 
         public ViewHolder(View view){
@@ -128,6 +141,7 @@ public class RegaloAdapter extends RecyclerView.Adapter<RegaloAdapter.ViewHolder
             this.nombre = (TextView) view.findViewById(R.id.nombre);
             this.link = (TextView) view.findViewById(R.id.link);
             this.idRegalo = (TextView) view.findViewById(R.id.idRegalo);
+            this.regaloReservado = (TextView) view.findViewById(R.id.regaloReservado);
         }
 
     }

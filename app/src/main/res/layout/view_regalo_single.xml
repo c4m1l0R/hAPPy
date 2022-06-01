@@ -7,7 +7,8 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:backgroundTint="#FFFFFF"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="20dp"
+    android:id="@+id/cardViewRegalo">
 
     <LinearLayout
         android:id="@+id/miLinearLayout"
@@ -34,6 +35,12 @@
             android:visibility="gone"
             android:text="" />
 
+        <TextView
+            android:id="@+id/regaloReservado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="" />
         <TextView
             android:id="@+id/link"
             android:layout_width="match_parent"
