@@ -146,7 +146,8 @@ public class FragmentPerfilAmigos extends Fragment {
                         firebaseAuth = FirebaseAuth.getInstance();
                         firebaseUser = firebaseAuth.getCurrentUser();
                         firebaseDatabase = FirebaseDatabase.getInstance();
-                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("regalos");
+                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("amigos");
+
 
                         databaseReference.child(getArguments().getString("idAmigo")).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

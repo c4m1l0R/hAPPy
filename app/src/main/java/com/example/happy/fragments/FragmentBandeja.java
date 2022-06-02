@@ -140,17 +140,12 @@ public class FragmentBandeja extends Fragment {
                         String nombre = ds.child("nombre").getValue().toString();
                         String apellido1 = ds.child("apellido1").getValue().toString();
                         String apellido2 = ds.child("apellido2").getValue().toString();
-                        String idAmigo = ds.child("idAmigo").getValue().toString();
+                        String idAmigo = ds.getKey();
                         mAmigosList.add(new Amigo(nombre, apellido1, apellido2, idAmigo));
                     }
 
                     mAdapter = new AmigoAdapter(mAmigosList,R.layout.view_amigo_single);
                     mRecycler.setAdapter(mAdapter);
-
-                }else{
-
-                    Toast.makeText(getActivity(), "No se han añadido aún amigos", Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(v).navigate(R.id.fragmentAnadirAmigo);
 
                 }
 

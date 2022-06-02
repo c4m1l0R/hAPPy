@@ -45,6 +45,7 @@ public class FragmentAnadirAmigo extends Fragment {
 
     //RECURSOS
     private EditText codigoAmigo;
+    private String codigo;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -100,27 +101,31 @@ public class FragmentAnadirAmigo extends Fragment {
         //RECURSOS
         Button botonAnadirAmigo = view.findViewById(R.id.botonConfirmarAmigo);
         codigoAmigo = view.findViewById(R.id.codigoAmigo);
+        codigo = codigoAmigo.getText().toString();
 
         //FIREBASE
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+        dbr = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("amigos");
         botonAnadirAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                databaseReference.child(codigoAmigo.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                validacionCodigo(codigoAmigo.getText().toString().trim(), v);
+
+                databaseReference.child(codigo).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        if(snapshot.exists()){
+                        if(snapshot.exists() && !codigo.equals(firebaseUser.getUid())){
 
                             String nombre = snapshot.child("nombre").getValue().toString();
                             String apellido1 = snapshot.child("apellido1").getValue().toString();
                             String apellido2 = snapshot.child("apellido2").getValue().toString();
                             String birthday = snapshot.child("birthday").getValue().toString();
-                            String idAmigo = codigoAmigo.getText().toString().trim();
+                            String idAmigo = codigo;
 
                             Amigo amigo = new Amigo(nombre, apellido1, apellido2, birthday, idAmigo);
 
@@ -143,7 +148,7 @@ public class FragmentAnadirAmigo extends Fragment {
 
                         }else{
 
-                            Toast.makeText(getActivity(), "El código de usuario no existe", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "El código de usuario no existe o ya esta añadido a la bandeja", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -157,6 +162,35 @@ public class FragmentAnadirAmigo extends Fragment {
             }
         });
 
+    }
+
+    private void validacionCodigo(String codigoAmig, View v){
+
+        dbr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds: snapshot.getChildren()){
+
+                    String nombre = ds.child("nombre").getValue().toString();
+                    String apellido1 = ds.child("apellido1").getValue().toString();
+                    String apellido2 = ds.child("apellido2").getValue().toString();
+                    String idAmigo = ds.child("idAmigo").getValue().toString();
+
+                    if(idAmigo.equals(codigoAmig)){
+
+                        codigo = firebaseUser.getUid();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
     }
 
 
