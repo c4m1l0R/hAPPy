@@ -33,7 +33,7 @@ public class LogActivity extends AppCompatActivity {
     private EditText pwd;
 
     //FIREBASE
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
 
     //AWESOME VALIDATION
     private AwesomeValidation awesomeValidation;
@@ -53,8 +53,7 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         //FIREBASE
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         if(user != null){
@@ -102,7 +101,7 @@ public class LogActivity extends AppCompatActivity {
                     String mail = email.getText().toString().trim();
                     String pass = pwd.getText().toString();
 
-                    mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    firebaseAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -120,8 +119,6 @@ public class LogActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
-                            Log.v("errorLogin", "jolin");
 
                             Toast.makeText(LogActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
@@ -20,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> implements View.OnClickListener {
+public class AmigoPerfilAdapter extends RecyclerView.Adapter<AmigoPerfilAdapter.ViewHolder> implements View.OnClickListener{
 
     private int resource;
     private ArrayList<Amigo> amigosList;
@@ -32,8 +31,7 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
-
-    public AmigoAdapter(ArrayList<Amigo> amigosList, int resource){
+    public AmigoPerfilAdapter(ArrayList<Amigo> amigosList, int resource){
 
         this.amigosList = amigosList;
         this.resource = resource;
@@ -42,15 +40,15 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public AmigoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AmigoPerfilAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
         view.setOnClickListener(this);
-        return new AmigoAdapter.ViewHolder(view);
+        return new AmigoPerfilAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AmigoPerfilAdapter.ViewHolder holder, int position) {
 
         Amigo amigo = amigosList.get(position);
         holder.nombreAmigo.setText(amigo.getNombre()+ " " +amigo.getApellido1()+" "+amigo.getApellido2());
@@ -60,16 +58,13 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putString("idAmigo", holder.idAmigo.getText().toString());
-                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);
-
-
+                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);*/
             }
         });
 
     }
-
 
     @Override
     public int getItemCount() {
@@ -91,7 +86,6 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
         this.listener = listener;
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView nombreAmigo;
@@ -107,7 +101,4 @@ public class AmigoAdapter extends RecyclerView.Adapter<AmigoAdapter.ViewHolder> 
         }
 
     }
-
-
-
 }

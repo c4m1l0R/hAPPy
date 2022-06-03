@@ -1,5 +1,6 @@
 package com.example.happy.fragments;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -13,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy.R;
+import com.example.happy.adapter.AmigoAdapter;
+import com.example.happy.adapter.AmigoPerfilAdapter;
+import com.example.happy.modelos.Amigo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class FragmentPerfil extends Fragment {
@@ -47,6 +55,11 @@ public class FragmentPerfil extends Fragment {
     private ImageView ajustes;
     private TextView codigoHappy;
     private ImageView copyCodigo;
+
+    //RECYCLERVIEW
+    private RecyclerView mRecycler;
+    private AmigoPerfilAdapter mAdapter;
+    private ArrayList<Amigo> mAmigosList = new ArrayList<>();
 
 
     public FragmentPerfil() {
@@ -86,8 +99,13 @@ public class FragmentPerfil extends Fragment {
         codigoHappy = view.findViewById(R.id.codigoHappy);
         copyCodigo = view.findViewById(R.id.copyCodigoHappy);
 
+        mAdapter = new AmigoPerfilAdapter(mAmigosList,R.layout.view_amigo_single);
+        mRecycler = view.findViewById(R.id.reciclerViewSingleAmigosPerfil);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         //Métodos
         cargarDatos();
+        getAmigosFromFirebase();
 
         ajustes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +154,47 @@ public class FragmentPerfil extends Fragment {
     }
 
 
+    private void getAmigosFromFirebase(){
 
+
+        databaseReference.child(firebaseUser.getUid()).child("amigos").orderByChild("birthday").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+
+                    for(DataSnapshot ds: snapshot.getChildren()){
+
+                        String nombre = ds.child("nombre").getValue().toString();
+                        String apellido1 = ds.child("apellido1").getValue().toString();
+                        String apellido2 = ds.child("apellido2").getValue().toString();
+                        String idAmigo = ds.getKey();
+                        mAmigosList.add(new Amigo(nombre, apellido1, apellido2, idAmigo));
+                    }
+
+                    mAdapter = new AmigoPerfilAdapter(mAmigosList,R.layout.view_amigo_single);
+                    mRecycler.setAdapter(mAdapter);
+
+                }else{
+
+                    Toast.makeText(getActivity(), "No se han añadido aún amigos", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        mAmigosList.clear();
+    }
 
 }

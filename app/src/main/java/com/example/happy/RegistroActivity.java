@@ -26,6 +26,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.collect.Range;
 import com.google.firebase.auth.AuthResult;
@@ -34,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -51,7 +53,8 @@ public class RegistroActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     //FIREBASE
-    private FirebaseAuth mAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
 
     //AWESOME VALIDATION
     AwesomeValidation awesomeValidation;
@@ -63,7 +66,8 @@ public class RegistroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
 
         //FIREBASE
-        mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //AWESOME VALIDATION
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
@@ -86,6 +90,7 @@ public class RegistroActivity extends AppCompatActivity {
         progressDialog.setMessage("Registrando...");
 
 
+        // EVENTO CALENDARIO
         textBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,17 +114,18 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
 
+        //EVENTO BOTON REGISTRAR
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String mail = email.getText().toString().trim();
                 String pass = pwd.getText().toString().trim();
-                String date = textBirthDate.getText().toString().trim();
-                Log.v("ValorGenerado", "el valor de Birthdate es "+date);
 
-                if(awesomeValidation.validate() && !date.isEmpty()){
+                if(awesomeValidation.validate()){
 
+                    System.out.println(mail);
+                    System.out.println(pass);
                     registrarUsuario(mail, pass);
 
                 }else {
@@ -133,16 +139,12 @@ public class RegistroActivity extends AppCompatActivity {
     private void registrarUsuario(String pEmail, String pPwd){
 
         progressDialog.show();
-        mAuth.createUserWithEmailAndPassword(pEmail, pPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(pEmail, pPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
 
                     progressDialog.dismiss();
-
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    assert  user != null; //AFIRMAMOS QUE EL USUARIO NO SEA NULL
-                    String uid = user.getUid();
 
                     String uEmail = email.getText().toString().trim();
                     String uPwd = pwd.getText().toString();
@@ -150,29 +152,37 @@ public class RegistroActivity extends AppCompatActivity {
                     String uApellido1 = apellido1.getText().toString();
                     String uApellido2 = apellido2.getText().toString();
                     String uBirthday = textBirthDate.getText().toString();
+                    String id = firebaseAuth.getCurrentUser().getUid();
 
-                    //MANDAMOS LA INFO A FIREBASE EN UN HASMAP
+                    //MANDAMOS LA INFO A FIRESTORE EN UN HASMAP
                     HashMap<Object, String> hashMap = new HashMap<>();
                     hashMap.put("email", uEmail);
                     hashMap.put("pwd", uPwd);
-                    hashMap.put("uid", uid);
                     hashMap.put("nombre", uNombre);
                     hashMap.put("apellido1", uApellido1);
                     hashMap.put("apellido2", uApellido2);
                     hashMap.put("birthday", uBirthday);
 
-                    //INICIALIZAMOS LA INSTANCIA DE LA BD DE FIREBASE
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    //CREAMOS LA BD NO RELACIONAL Users
-                    DatabaseReference reference = database.getReference("Users");
-                    reference.child(uid).setValue(hashMap);
+                    firebaseFirestore.collection("users").document(id).set(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
 
-                    //INFORMAMOS DEL EXITO DE LA OPERACIÓN
-                    Toast.makeText(RegistroActivity.this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegistroActivity.this, LogActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                            Toast.makeText(RegistroActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(RegistroActivity.this, LogActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(RegistroActivity.this, "Error en registro de la base de datos", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
 
                 }else {
 
@@ -192,7 +202,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }
 
-
+    //MUESTRA ERRORES PERSONALIZADOS
     private void dameToastdeerror(String error) {
 
         switch (error) {
