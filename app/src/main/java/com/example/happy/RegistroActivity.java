@@ -46,7 +46,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText apellido2;
     private EditText email;
     private EditText pwd;
-    private EditText editTextBirthDate;
+    private TextView textBirthDate;
     private Button registrar;
     private ProgressDialog progressDialog;
 
@@ -72,7 +72,7 @@ public class RegistroActivity extends AppCompatActivity {
         awesomeValidation.addValidation(this, R.id.editTextTextName, "[a-zA-Z\\s]+", R.string.invalid_name);
         awesomeValidation.addValidation(this, R.id.editTextTextSurname1, "[a-zA-Z\\s]+", R.string.invalid_surname);
         awesomeValidation.addValidation(this, R.id.editTextTextSurname2, "[a-zA-Z\\s]+", R.string.invalid_surname);
-        awesomeValidation.addValidation(this, R.id.editTextBirthDate, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.invalid_birthday);
+        awesomeValidation.addValidation(this, R.id.textBirthDate, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.invalid_birthday);
 
         //RECURSOS
         nombre = (EditText) findViewById(R.id.editTextTextName);
@@ -80,10 +80,33 @@ public class RegistroActivity extends AppCompatActivity {
         apellido2 = (EditText) findViewById(R.id.editTextTextSurname2);
         email = (EditText) findViewById(R.id.editTextTextEmailAddress);
         pwd = (EditText) findViewById(R.id.editTextTextPassword);
-        editTextBirthDate = (EditText) findViewById(R.id.editTextBirthDate);
+        textBirthDate = (TextView) findViewById(R.id.textBirthDate);
         registrar = (Button) findViewById(R.id.registrar);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registrando...");
+
+
+        textBirthDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar calendario = Calendar.getInstance();
+                int anio = calendario.get(Calendar.YEAR);
+                int mes =  calendario.get(Calendar.MONTH);
+                int dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(RegistroActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        String fecha = dayOfMonth + "/" + month + "/" + year;
+                        textBirthDate.setText(fecha);
+                    }
+                }, 2022, mes, dia);
+
+                datePickerDialog.show();
+            }
+        });
 
 
         registrar.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +115,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                 String mail = email.getText().toString().trim();
                 String pass = pwd.getText().toString().trim();
-                String date = editTextBirthDate.getText().toString().trim();
+                String date = textBirthDate.getText().toString().trim();
                 Log.v("ValorGenerado", "el valor de Birthdate es "+date);
 
                 if(awesomeValidation.validate() && !date.isEmpty()){
@@ -126,7 +149,7 @@ public class RegistroActivity extends AppCompatActivity {
                     String uNombre = nombre.getText().toString();
                     String uApellido1 = apellido1.getText().toString();
                     String uApellido2 = apellido2.getText().toString();
-                    String uBirthday = editTextBirthDate.getText().toString();
+                    String uBirthday = textBirthDate.getText().toString();
 
                     //MANDAMOS LA INFO A FIREBASE EN UN HASMAP
                     HashMap<Object, String> hashMap = new HashMap<>();
@@ -168,7 +191,6 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     private void dameToastdeerror(String error) {

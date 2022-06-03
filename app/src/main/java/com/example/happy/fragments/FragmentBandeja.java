@@ -147,6 +147,9 @@ public class FragmentBandeja extends Fragment {
                     mAdapter = new AmigoAdapter(mAmigosList,R.layout.view_amigo_single);
                     mRecycler.setAdapter(mAdapter);
 
+                }else{
+
+                    Toast.makeText(getActivity(), "No se han añadido aún amigos", Toast.LENGTH_SHORT).show();
                 }
 
             }

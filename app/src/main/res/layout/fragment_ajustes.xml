@@ -141,17 +141,18 @@
             android:layout_marginRight="60dp"
             android:text="Cumpleaños (DD/MM/YYYY)" />
 
-        <EditText
+        <TextView
             android:id="@+id/birthdayAjustes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date"
             android:minHeight="48dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:fontFamily="@font/poppin"
+            android:textColor="@color/black"
             android:background="@drawable/popup_blanco" />
 
 

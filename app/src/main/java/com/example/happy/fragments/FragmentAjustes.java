@@ -1,5 +1,6 @@
 package com.example.happy.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -29,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +55,8 @@ public class FragmentAjustes extends Fragment {
 
 
     //CAMPOS AJUSTES
-    EditText nombre, apellido1, apellido2, contrasena, birthday;
+    EditText nombre, apellido1, apellido2, contrasena;
+    TextView birthday;
 
     //FIREBASE
     private FirebaseAuth firebaseAuth;
@@ -137,6 +142,30 @@ public class FragmentAjustes extends Fragment {
 
 
         //EVENTOS
+        birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar calendario = Calendar.getInstance();
+                int anio = calendario.get(Calendar.YEAR);
+                int mes =  calendario.get(Calendar.MONTH);
+                int dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        String fecha = dayOfMonth + "/" + month + "/" + year;
+                        birthday.setText(fecha);
+                    }
+                }, 2022, mes, dia);
+
+                datePickerDialog.show();
+
+            }
+        });
+
+
         botonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
