@@ -7,9 +7,11 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:backgroundTint="#FFFFFF"
+    android:id="@+id/cardViewAmigo"
     app:cardCornerRadius="20dp">
 
     <LinearLayout
+        android:id="@+id/linearAmigo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

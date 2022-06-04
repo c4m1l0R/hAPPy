@@ -16,8 +16,6 @@ import com.example.happy.R;
 import com.example.happy.modelos.Regalo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -30,8 +28,6 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
     //FIREBASE
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
 
     public RegaloAdapterAmigo(ArrayList<Regalo> regalosList, int resource){
         this.regalosList = regalosList;
@@ -53,7 +49,7 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
         Regalo regalo = regalosList.get(position);
         holder.nombre.setText(regalo.getNombre());
         holder.link.setText(regalo.getLink());
-        holder.idRegalo.setText(regalo.getIdRegalo());
+       // holder.idRegalo.setText(regalo.getIdRegalo());
         holder.regaloReservado.setText(regalo.getRegaloReservado());
 
         if(regalo.getRegaloReservado().equalsIgnoreCase("true")){
@@ -111,7 +107,7 @@ public class RegaloAdapterAmigo extends RecyclerView.Adapter<RegaloAdapterAmigo.
             this.view = view;
             this.nombre = (TextView) view.findViewById(R.id.nombre);
             this.link = (TextView) view.findViewById(R.id.link);
-            this.idRegalo = (TextView) view.findViewById(R.id.idRegalo);
+            //this.idRegalo = (TextView) view.findViewById(R.id.idRegalo);
             this.regaloReservado = (TextView) view.findViewById(R.id.regaloReservado);
         }
 

@@ -11,7 +11,7 @@
     android:id="@+id/cardViewRegalo">
 
     <LinearLayout
-        android:id="@+id/miLinearLayout"
+        android:id="@+id/linearRegalo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,13 +27,6 @@
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/idRegalo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="" />
 
         <TextView
             android:id="@+id/regaloReservado"

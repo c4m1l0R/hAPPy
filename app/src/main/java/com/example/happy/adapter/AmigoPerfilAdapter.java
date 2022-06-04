@@ -7,15 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy.R;
 import com.example.happy.modelos.Amigo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -28,8 +25,6 @@ public class AmigoPerfilAdapter extends RecyclerView.Adapter<AmigoPerfilAdapter.
     //FIREBASE
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
 
     public AmigoPerfilAdapter(ArrayList<Amigo> amigosList, int resource){
 

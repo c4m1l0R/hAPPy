@@ -10,14 +10,6 @@ public class Amigo {
 
     public Amigo(){}
 
-    public Amigo(String nombre, String apellido1, String apellido2, String idAmigo){
-
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.idAmigo = idAmigo;
-    }
-
     public Amigo(String nombre, String apellido1, String apellido2, String birthday, String idAmigo) {
         this.nombre = nombre;
         this.apellido1 = apellido1;

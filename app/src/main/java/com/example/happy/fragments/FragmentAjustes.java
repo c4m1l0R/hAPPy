@@ -21,16 +21,9 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.happy.LogActivity;
 import com.example.happy.R;
-import com.example.happy.RegistroActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -41,14 +34,12 @@ import java.util.Map;
 public class FragmentAjustes extends Fragment {
 
     //CAMPOS AJUSTES
-    EditText nombre, apellido1, apellido2, contrasena;
-    TextView birthday;
+    private EditText nombre, apellido1, apellido2, contrasena;
+    private TextView birthday;
 
     //FIREBASE
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
-    private DatabaseReference dbr;
-    String currentUser;
 
     //AWESOME VALIDATION
     AwesomeValidation awesomeValidation;
@@ -60,7 +51,6 @@ public class FragmentAjustes extends Fragment {
         //FIREBASE
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        currentUser = firebaseAuth.getCurrentUser().getUid();
 
         //AWESOME VALIDATION
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
@@ -143,20 +133,34 @@ public class FragmentAjustes extends Fragment {
             @Override
             public void onClick(View v) {
 
-                dbr.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
 
-                        Toast.makeText(v.getContext(), "Se ha eliminado tu perfil", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), LogActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        firebaseAuth.getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                Toast.makeText(getActivity(), "Se ha eliminado tu usuario con éxito", Toast.LENGTH_SHORT).show();
+                                firebaseAuth.signOut();
+                                Intent intent = new Intent(getActivity(), LogActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                startActivity(intent);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText(getActivity(), "Error al eliminar al usuario. Pongase en contacto con el administrador", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(v.getContext(), "No se ha podido eliminar tu perfil. Ponte en contacto con el administrador.", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getActivity(), "Error al eliminar al usuario. Pongase en contacto con el administrador", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -165,15 +169,15 @@ public class FragmentAjustes extends Fragment {
 
     private void cargarDatos(){
 
-        firebaseFirestore.collection("users").document(currentUser).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot document) {
 
-                String nom = document.getDate("nombre").toString();
-                String ape1 = document.getDate("apellido1").toString();
-                String ape2 = document.getDate("apellido2").toString();
-                String con = document.getDate("pwd").toString();
-                String birthD = document.getDate("birthday").toString();
+                String nom = document.getString("nombre");
+                String ape1 = document.getString("apellido1");
+                String ape2 = document.getString("apellido2");
+                String con = document.getString("pwd");
+                String birthD = document.getString("birthday");
 
                 //SET
                 nombre.setText(nom);
@@ -204,7 +208,7 @@ public class FragmentAjustes extends Fragment {
         personaMap.put("pwd", contrasena.getText().toString().trim());
         personaMap.put("birthday", birthday.getText().toString().trim());
 
-        firebaseFirestore.collection("users").document(currentUser).update(personaMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).update(personaMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 

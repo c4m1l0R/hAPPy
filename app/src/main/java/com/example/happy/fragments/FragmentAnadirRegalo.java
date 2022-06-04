@@ -15,72 +15,32 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.happy.R;
-import com.example.happy.modelos.Regalo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentAnadirRegalo#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+
 public class FragmentAnadirRegalo extends Fragment {
 
     //FIREBASE
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore firebaseFirestore;
 
     //RECURSOS
     private EditText nombreRegalo;
     private EditText linkRegalo;
 
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public FragmentAnadirRegalo() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentAnadirRegalo.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentAnadirRegalo newInstance(String param1, String param2) {
-        FragmentAnadirRegalo fragment = new FragmentAnadirRegalo();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -102,32 +62,18 @@ public class FragmentAnadirRegalo extends Fragment {
 
         //FIREBASE
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("regalos");
-
-
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         botonAnadirRegalo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Regalo regalo = new Regalo(nombreRegalo.getText().toString().trim(), linkRegalo.getText().toString().trim(), "false");
-                add(regalo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
+                if(!nombreRegalo.getText().toString().trim().isEmpty()){
 
-                        Toast.makeText(getActivity(), "Se ha añadido correctamente tu regalo", Toast.LENGTH_SHORT).show();
-                        Navigation.findNavController(v).navigate(R.id.fragmentLista);
+                    anadirRegalo(nombreRegalo.getText().toString().trim(), linkRegalo.getText().toString().trim());
+                    Navigation.findNavController(v).navigate(R.id.fragmentLista);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(getActivity(), "Error al añadir tu regalo", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
             }
         });
 
@@ -140,8 +86,29 @@ public class FragmentAnadirRegalo extends Fragment {
         });
     }
 
-    private Task<Void> add(Regalo regalo){
+    private void anadirRegalo(String nombre, String link){
 
-        return databaseReference.push().setValue(regalo);
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("nombre", nombreRegalo.getText().toString().trim());
+        hashMap.put("link", linkRegalo.getText().toString().trim());
+        hashMap.put("regaloReservado", "false");
+
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                collection("regalos").add(hashMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+                        Toast.makeText(getActivity(), "Regalo añadido", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(getActivity(), "Error al añadir el regalo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
+
 }

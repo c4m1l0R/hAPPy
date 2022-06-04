@@ -3,7 +3,6 @@ package com.example.happy.adapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,135 +12,121 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy.R;
 import com.example.happy.modelos.Regalo;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-
-public class RegaloAdapter extends RecyclerView.Adapter<RegaloAdapter.ViewHolder> {
-
-    private int resource;
-    private ArrayList<Regalo> regalosList;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
-    //FIREBASE
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
+public class RegaloAdapter extends FirestoreRecyclerAdapter<Regalo,RegaloAdapter.ViewHolder> {
 
-
-    public RegaloAdapter(ArrayList<Regalo> regalosList, int resource){
-        this.regalosList = regalosList;
-        this.resource = resource;
-
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
-        return new ViewHolder(view);
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    public RegaloAdapter(@NonNull FirestoreRecyclerOptions<Regalo> options) {
+        super(options);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    protected void onBindViewHolder(@NonNull RegaloAdapter.ViewHolder viewHolder, int i, @NonNull Regalo regalo) {
 
-        Regalo regalo = regalosList.get(position);
-        holder.nombre.setText(regalo.getNombre());
-        holder.link.setText(regalo.getLink());
-        holder.idRegalo.setText(regalo.getIdRegalo());
-        holder.regaloReservado.setText(regalo.getRegaloReservado());
+        viewHolder.nombre.setText(regalo.getNombre());
+        viewHolder.link.setText(regalo.getLink());
+        viewHolder.regaloReservado.setText(regalo.getRegaloReservado());
 
-        if(regalo.getRegaloReservado().equalsIgnoreCase("true")){
+        if(viewHolder.regaloReservado.getText().toString().equals("true")){
 
-            holder.nombre.setText(holder.nombre.getText()+"   RESERVADO ");
-            holder.link.setTextColor(Color.RED);
-            holder.nombre.setTextColor(Color.RED);
-
+            viewHolder.linearLayout.setBackgroundColor(Color.BLUE);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
+        final String id = documentSnapshot.getId();
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                builder.setTitle("Borrar Regalo");
-                builder.setMessage("¿Deseas eliminar este regalo de tu lista?");
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        firebaseAuth = FirebaseAuth.getInstance();
-                        firebaseUser = firebaseAuth.getCurrentUser();
-                        firebaseDatabase = FirebaseDatabase.getInstance();
-                        databaseReference = firebaseDatabase.getReference("Users").child(firebaseUser.getUid()).child("regalos");
-
-                        databaseReference.child(holder.idRegalo.getText().toString()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-
-                                Toast.makeText(v.getContext(), "Se ha eliminado tu regalo", Toast.LENGTH_SHORT).show();
-                                regalosList.clear();
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(v.getContext(), "No se ha podido eliminar tu regalo", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.show();
+                borrarRegalo (id, v, viewHolder.regaloReservado.getText().toString());
             }
+        });
+    }
 
+    private void borrarRegalo(String id, View v, String regaloReservado){
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+        builder.setTitle("Eliminar regalo");
+        builder.setMessage("Seguro que quieres eliminar el regalo");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if(regaloReservado.equals("true")){
+
+                    Toast.makeText(v.getRootView().getContext(), "Este regalo ya esta reservado por uno de tus amigos",
+                            Toast.LENGTH_SHORT).show();
+
+                }else{
+
+                    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                    firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                            collection("regalos").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    Toast.makeText(v.getRootView().getContext(), "Regalo eliminado con éxito",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Toast.makeText(v.getRootView().getContext(), "No se ha podido eliminar el regalo",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                }
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
         });
 
+        builder.show();
     }
 
+
+    @NonNull
     @Override
-    public int getItemCount() {
-        return regalosList.size();
-    }
+    public RegaloAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_regalo_single, parent, false);
+        return new ViewHolder(view);
 
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView nombre;
-        private TextView link;
-        private TextView idRegalo;
-        private TextView regaloReservado;
-        public View view;
+        private TextView nombre, link, regaloReservado;
+        private CardView cardView;
+        private LinearLayout linearLayout;
 
         public ViewHolder(View view){
             super(view);
 
-            this.view = view;
             this.nombre = (TextView) view.findViewById(R.id.nombre);
             this.link = (TextView) view.findViewById(R.id.link);
-            this.idRegalo = (TextView) view.findViewById(R.id.idRegalo);
             this.regaloReservado = (TextView) view.findViewById(R.id.regaloReservado);
+            this.cardView = (CardView) view.findViewById(R.id.cardViewRegalo);
+            this.linearLayout = (LinearLayout) view.findViewById(R.id.linearRegalo);
+
         }
 
     }
