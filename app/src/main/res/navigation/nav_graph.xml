@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragmentPerfil_to_fragmentAjustes"
             app:destination="@id/fragmentAjustes" />
+        <action
+            android:id="@+id/action_fragmentPerfil_to_fragmentDetalleCumpleanero"
+            app:destination="@id/fragmentDetalleCumpleanero" />
     </fragment>
     <fragment
         android:id="@+id/fragmentBandeja"
@@ -59,4 +62,9 @@
             android:id="@+id/action_fragmentPerfilAmigos_to_fragmentBandeja"
             app:destination="@id/fragmentBandeja" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentDetalleCumpleanero"
+        android:name="com.example.happy.fragments.FragmentDetalleCumpleanero"
+        android:label="fragment_detalle_cumpleanero"
+        tools:layout="@layout/fragment_detalle_cumpleanero" />
 </navigation>

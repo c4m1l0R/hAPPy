@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RegaloAdapterAmigo extends FirestoreRecyclerAdapter<Regalo,RegaloAdapterAmigo.ViewHolder> {
 
@@ -88,8 +89,12 @@ public class RegaloAdapterAmigo extends FirestoreRecyclerAdapter<Regalo,RegaloAd
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                Map<String, Object> map = new HashMap<>();
+                map.put("regaloReservado", "true");
+                map.put("idAmigoReserva", firebaseAuth.getCurrentUser().getUid());
+
                 firebaseFirestore.collection("users").document(getIdAmigo()).collection("regalos").
-                        document(idRegalo).update("regaloReservado", "true").addOnSuccessListener(new OnSuccessListener<Void>() {
+                        document(idRegalo).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
 
@@ -128,8 +133,6 @@ public class RegaloAdapterAmigo extends FirestoreRecyclerAdapter<Regalo,RegaloAd
 
                         Toast.makeText(v.getRootView().getContext(), "Tu regalo se ha reservado correctamente",
                                 Toast.LENGTH_SHORT).show();
-
-                        Navigation.findNavController(v).navigate(R.id.fragmentBandeja);
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {

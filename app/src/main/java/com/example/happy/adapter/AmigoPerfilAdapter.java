@@ -17,7 +17,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-
 public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPerfilAdapter.ViewHolder> {
 
     public AmigoPerfilAdapter(@NonNull FirestoreRecyclerOptions<Amigo> options) {
@@ -25,7 +24,7 @@ public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPer
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AmigoPerfilAdapter.ViewHolder viewHolder, int i, @NonNull Amigo amigo) {
+    protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull Amigo amigo) {
 
         DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
         final String id = documentSnapshot.getId();
@@ -40,17 +39,17 @@ public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPer
                 Bundle bundle = new Bundle();
                 bundle.putString("idAmigo", viewHolder.idAmigo.getText().toString());
                 bundle.putString("idAmigoColeccion", id);
-                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);
+                Navigation.findNavController(v).navigate(R.id.fragmentDetalleCumpleanero, bundle);
             }
         });
-
     }
+
 
     @NonNull
     @Override
     public AmigoPerfilAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_amigo_single, parent, false);
-        return new AmigoPerfilAdapter.ViewHolder(view);
+        return  new AmigoPerfilAdapter.ViewHolder(view);
 
     }
 
@@ -59,7 +58,7 @@ public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPer
         private TextView nombreAmigo,idAmigo;
         private CardView cardView;
 
-        public ViewHolder(View view){
+        public ViewHolder(@NonNull View view) {
             super(view);
 
             this.nombreAmigo = (TextView) view.findViewById(R.id.nombreAmigo);
@@ -67,7 +66,5 @@ public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPer
             this.cardView = (CardView) view.findViewById(R.id.cardViewAmigo);
 
         }
-
     }
 }
-

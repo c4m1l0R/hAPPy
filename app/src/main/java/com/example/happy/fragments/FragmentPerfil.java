@@ -25,7 +25,6 @@ import com.example.happy.adapter.AmigoAdapter;
 import com.example.happy.adapter.AmigoPerfilAdapter;
 import com.example.happy.adapter.RegaloAdapterAmigo;
 import com.example.happy.modelos.Amigo;
-import com.example.happy.modelos.Regalo;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,7 +46,9 @@ public class FragmentPerfil extends Fragment {
     private TextView codigoHappy;
     private ImageView copyCodigo;
 
-
+    //RECYCLERVIEW
+    private RecyclerView mRecycler;
+    private AmigoPerfilAdapter mAdapter;
 
     public FragmentPerfil() {
         // Required empty public constructor
@@ -60,12 +61,10 @@ public class FragmentPerfil extends Fragment {
     }
 
     @Override
-    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
-        return view;
-
+        return inflater.inflate(R.layout.fragment_perfil, container, false);
     }
 
     @Override
@@ -82,9 +81,13 @@ public class FragmentPerfil extends Fragment {
         codigoHappy = view.findViewById(R.id.codigoHappy);
         copyCodigo = view.findViewById(R.id.copyCodigoHappy);
 
+        mRecycler = view.findViewById(R.id.reciclerViewSingleAmigosPerfil);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         //MÉTODOS
         cargarDatos();
+        caragrAmigos();
 
 
         //EVENTOS
@@ -133,6 +136,30 @@ public class FragmentPerfil extends Fragment {
     }
 
 
+    private void caragrAmigos(){
 
+        Query query = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                collection("amigos").orderBy("birthday");
 
+        FirestoreRecyclerOptions<Amigo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Amigo>().
+                setQuery(query, Amigo.class).build();
+
+        mAdapter = new AmigoPerfilAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mAdapter.stopListening();
+    }
 }
