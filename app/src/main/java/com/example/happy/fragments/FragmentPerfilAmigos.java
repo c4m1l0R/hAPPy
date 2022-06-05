@@ -8,7 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,18 +18,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy.R;
+import com.example.happy.adapter.RegaloAdapter;
 import com.example.happy.adapter.RegaloAdapterAmigo;
 import com.example.happy.modelos.Regalo;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -38,6 +48,7 @@ public class FragmentPerfilAmigos extends Fragment {
     private FirebaseFirestore firebaseFirestore;
 
     //RECURSOS
+    private ImageView backBandeja;
     private TextView nombreAmigo;
     private TextView birthdayAmigo;
     private Button eliminarAmigo;
@@ -45,9 +56,8 @@ public class FragmentPerfilAmigos extends Fragment {
     private String idAmigoColeccion;
 
     //RECYCLERVIEW
-    /*private RecyclerView mRecycler;
+    private RecyclerView mRecycler;
     private RegaloAdapterAmigo mAdapter;
-    private ArrayList<Regalo> mRegalosList = new ArrayList<>();*/
 
     public FragmentPerfilAmigos() {
         // Required empty public constructor
@@ -75,14 +85,26 @@ public class FragmentPerfilAmigos extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         //RECURSOS
+        backBandeja = view.findViewById(R.id.backBandeja);
         nombreAmigo = view.findViewById(R.id.nombreAmigoPerfil);
         birthdayAmigo = view.findViewById(R.id.fechaCumpleAmigo);
         eliminarAmigo = view.findViewById(R.id.eliminarAmigo);
         idAmigo = getArguments().getString("idAmigo");
         idAmigoColeccion = getArguments().getString("idAmigoColeccion");
 
+        mRecycler = view.findViewById(R.id.reciclerViewSingleAmigosRegalos);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         cargarDatos();
         cargarRegalos();
+
+        backBandeja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Navigation.findNavController(v).navigate(R.id.fragmentBandeja);
+            }
+        });
 
         eliminarAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +169,30 @@ public class FragmentPerfilAmigos extends Fragment {
 
     private void cargarRegalos(){
 
+        Query query = firebaseFirestore.collection("users").document(idAmigo).collection("regalos").
+                orderBy("nombre");
 
+        FirestoreRecyclerOptions<Regalo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Regalo>().
+                setQuery(query, Regalo.class).build();
 
+        mAdapter = new RegaloAdapterAmigo(firestoreRecyclerOptions);
+        mAdapter.setIdAmigo(idAmigo.trim());
+        mAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mAdapter.stopListening();
     }
 }

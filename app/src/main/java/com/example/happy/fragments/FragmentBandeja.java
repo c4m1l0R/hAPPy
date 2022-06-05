@@ -1,6 +1,5 @@
 package com.example.happy.fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,21 +15,11 @@ import android.widget.ImageView;
 
 import com.example.happy.R;
 import com.example.happy.adapter.AmigoAdapter;
-import com.example.happy.adapter.RegaloAdapter;
 import com.example.happy.modelos.Amigo;
-import com.example.happy.modelos.Regalo;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-
 public class FragmentBandeja extends Fragment {
 
 

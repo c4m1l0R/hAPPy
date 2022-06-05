@@ -7,6 +7,7 @@
     <string name="invalid_surname">Ingrese un apellido valido</string>
     <string name="invalid_birthday">Ingrese una fecha de cumpleaños valida</string>
 
+    <string name="volver_bandeja">Volver a bandeja</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

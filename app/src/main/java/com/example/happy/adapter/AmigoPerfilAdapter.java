@@ -7,93 +7,67 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy.R;
 import com.example.happy.modelos.Amigo;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
 
-public class AmigoPerfilAdapter extends RecyclerView.Adapter<AmigoPerfilAdapter.ViewHolder> implements View.OnClickListener{
+public class AmigoPerfilAdapter extends FirestoreRecyclerAdapter<Amigo, AmigoPerfilAdapter.ViewHolder> {
 
-    private int resource;
-    private ArrayList<Amigo> amigosList;
-    private View.OnClickListener listener;
+    public AmigoPerfilAdapter(@NonNull FirestoreRecyclerOptions<Amigo> options) {
+        super(options);
+    }
 
-    //FIREBASE
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
+    @Override
+    protected void onBindViewHolder(@NonNull AmigoPerfilAdapter.ViewHolder viewHolder, int i, @NonNull Amigo amigo) {
 
-    public AmigoPerfilAdapter(ArrayList<Amigo> amigosList, int resource){
+        DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
+        final String id = documentSnapshot.getId();
 
-        this.amigosList = amigosList;
-        this.resource = resource;
+        viewHolder.nombreAmigo.setText(amigo.getNombre());
+        viewHolder.idAmigo.setText(amigo.getIdAmigo());
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("idAmigo", viewHolder.idAmigo.getText().toString());
+                bundle.putString("idAmigoColeccion", id);
+                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);
+            }
+        });
 
     }
 
     @NonNull
     @Override
     public AmigoPerfilAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
-        view.setOnClickListener(this);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_amigo_single, parent, false);
         return new AmigoPerfilAdapter.ViewHolder(view);
-    }
 
-    @Override
-    public void onBindViewHolder(@NonNull AmigoPerfilAdapter.ViewHolder holder, int position) {
-
-        Amigo amigo = amigosList.get(position);
-        holder.nombreAmigo.setText(amigo.getNombre()+ " " +amigo.getApellido1()+" "+amigo.getApellido2());
-        holder.idAmigo.setText(amigo.getIdAmigo());
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                /*Bundle bundle = new Bundle();
-                bundle.putString("idAmigo", holder.idAmigo.getText().toString());
-                Navigation.findNavController(v).navigate(R.id.fragmentPerfilAmigos, bundle);*/
-            }
-        });
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return amigosList.size();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        if(listener !=null){
-
-            listener.onClick(v);
-        }
-
-    }
-
-    public void setOnClickListener(View.OnClickListener listener){
-        this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView nombreAmigo;
-        private TextView idAmigo;
-        public View view;
+        private TextView nombreAmigo,idAmigo;
+        private CardView cardView;
 
         public ViewHolder(View view){
             super(view);
 
-            this.view = view;
             this.nombreAmigo = (TextView) view.findViewById(R.id.nombreAmigo);
             this.idAmigo = (TextView) view.findViewById(R.id.idAmigo);
+            this.cardView = (CardView) view.findViewById(R.id.cardViewAmigo);
+
         }
 
     }
 }
+

@@ -61,6 +61,7 @@ public class RegaloAdapter extends FirestoreRecyclerAdapter<Regalo,RegaloAdapter
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
         builder.setTitle("Eliminar regalo");
         builder.setMessage("Seguro que quieres eliminar el regalo");
+
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

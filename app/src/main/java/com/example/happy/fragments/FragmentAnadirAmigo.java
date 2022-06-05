@@ -59,7 +59,7 @@ public class FragmentAnadirAmigo extends Fragment {
                 try {
 
                     firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
-                            collection("idsAmigos").whereEqualTo("id", codigoAmigo.getText().toString()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            collection("amigos").whereEqualTo("idAmigo", codigoAmigo.getText().toString()).addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -67,9 +67,6 @@ public class FragmentAnadirAmigo extends Fragment {
 
                                         HashMap<Object, String> map = new HashMap<>();
                                         map.put("id", codigoAmigo.getText().toString());
-
-                                        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
-                                                collection("idsAmigos").add(map);
 
                                         obtenerDatosAmigo(v);
 
@@ -86,9 +83,6 @@ public class FragmentAnadirAmigo extends Fragment {
 
                     HashMap<Object, String> map = new HashMap<>();
                     map.put("id", codigoAmigo.getText().toString());
-
-                    firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
-                            collection("idsAmigos").add(map);
 
                     obtenerDatosAmigo(v);
 

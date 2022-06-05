@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy.R;
+import com.example.happy.adapter.AmigoAdapter;
+import com.example.happy.adapter.AmigoPerfilAdapter;
+import com.example.happy.adapter.RegaloAdapterAmigo;
+import com.example.happy.modelos.Amigo;
+import com.example.happy.modelos.Regalo;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 
 public class FragmentPerfil extends Fragment {
@@ -38,10 +47,6 @@ public class FragmentPerfil extends Fragment {
     private TextView codigoHappy;
     private ImageView copyCodigo;
 
-    //RECYCLERVIEW
-    /*private RecyclerView mRecycler;
-    private AmigoPerfilAdapter mAdapter;
-    private ArrayList<Amigo> mAmigosList = new ArrayList<>();*/
 
 
     public FragmentPerfil() {
@@ -77,8 +82,10 @@ public class FragmentPerfil extends Fragment {
         codigoHappy = view.findViewById(R.id.codigoHappy);
         copyCodigo = view.findViewById(R.id.copyCodigoHappy);
 
+
         //MÉTODOS
         cargarDatos();
+
 
         //EVENTOS
         ajustes.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +119,7 @@ public class FragmentPerfil extends Fragment {
             public void onSuccess(DocumentSnapshot document) {
 
                 textNombreUser.setText(document.getString("nombre"));
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -123,6 +131,8 @@ public class FragmentPerfil extends Fragment {
         });
 
     }
+
+
 
 
 }
