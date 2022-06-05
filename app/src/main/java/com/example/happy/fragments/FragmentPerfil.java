@@ -4,10 +4,12 @@ package com.example.happy.fragments;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,9 +32,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class FragmentPerfil extends Fragment {
 
@@ -48,7 +55,9 @@ public class FragmentPerfil extends Fragment {
 
     //RECYCLERVIEW
     private RecyclerView mRecycler;
+    private RecyclerView hoyRecicler;
     private AmigoPerfilAdapter mAdapter;
+    private AmigoPerfilAdapter amigoPerfilAdapter;
 
     public FragmentPerfil() {
         // Required empty public constructor
@@ -84,11 +93,13 @@ public class FragmentPerfil extends Fragment {
         mRecycler = view.findViewById(R.id.reciclerViewSingleAmigosPerfil);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        hoyRecicler = view.findViewById(R.id.reciclerViewSingleCumpleHoy);
+        hoyRecicler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //MÉTODOS
+        cargarCumpleHoy();
         cargarDatos();
         caragrAmigos();
-
 
         //EVENTOS
         ajustes.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +146,26 @@ public class FragmentPerfil extends Fragment {
 
     }
 
+    private void cargarCumpleHoy(){
+
+        String timeStamp = new SimpleDateFormat("dd/MM").format(Calendar.getInstance().getTime());
+
+        Query query = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                collection("amigos").orderBy("birthday").startAt(timeStamp).endAt(timeStamp+'\uf8ff');
+
+        FirestoreRecyclerOptions <Amigo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Amigo>().
+                setQuery(query, Amigo.class).build();
+
+        amigoPerfilAdapter = new AmigoPerfilAdapter(firestoreRecyclerOptions);
+        hoyRecicler.setAdapter(amigoPerfilAdapter);
+
+    }
 
     private void caragrAmigos(){
 
         Query query = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
                 collection("amigos").orderBy("birthday");
+
 
         FirestoreRecyclerOptions<Amigo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Amigo>().
                 setQuery(query, Amigo.class).build();
@@ -149,6 +175,7 @@ public class FragmentPerfil extends Fragment {
         mRecycler.setAdapter(mAdapter);
 
     }
+
 
     @Override
     public void onStart() {

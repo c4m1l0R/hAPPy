@@ -40,8 +40,6 @@ public class RegaloReservadoAdapter extends FirestoreRecyclerAdapter<Regalo, Reg
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView nombre, link, regaloReservado;
-        private CardView cardView;
-        private LinearLayout linearLayout;
 
         public ViewHolder(View view){
             super(view);
@@ -49,8 +47,6 @@ public class RegaloReservadoAdapter extends FirestoreRecyclerAdapter<Regalo, Reg
             this.nombre = (TextView) view.findViewById(R.id.nombre);
             this.link = (TextView) view.findViewById(R.id.link);
             this.regaloReservado = (TextView) view.findViewById(R.id.regaloReservado);
-            this.cardView = (CardView) view.findViewById(R.id.cardViewRegalo);
-            this.linearLayout = (LinearLayout) view.findViewById(R.id.linearRegalo);
 
         }
 

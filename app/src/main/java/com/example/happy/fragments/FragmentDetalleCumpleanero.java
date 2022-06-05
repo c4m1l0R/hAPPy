@@ -114,12 +114,11 @@ public class FragmentDetalleCumpleanero extends Fragment {
     private void cargarRegalosReservados(){
 
         Query query = firebaseFirestore.collection("users").document(idAmigo).
-                collection("regalos").whereEqualTo("idAmigoReserva", firebaseAuth.getCurrentUser().getUid()).
-                orderBy("nombre");
+                collection("regalos").whereEqualTo("idAmigoReserva", firebaseAuth.getCurrentUser().getUid());
 
-        System.out.println(idAmigo);
+        System.out.println(query);
 
-        FirestoreRecyclerOptions<Regalo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Regalo>().
+        FirestoreRecyclerOptions <Regalo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Regalo>().
                 setQuery(query, Regalo.class).build();
 
         mAdapter = new RegaloReservadoAdapter(firestoreRecyclerOptions);
@@ -130,10 +129,14 @@ public class FragmentDetalleCumpleanero extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        mAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
+        mAdapter.stopListening();
     }
 }

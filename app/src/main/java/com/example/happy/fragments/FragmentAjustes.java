@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,7 +91,12 @@ public class FragmentAjustes extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        String fecha = dayOfMonth + "/" + month + "/" + year;
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, month, dayOfMonth);
+
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String fecha = format.format(calendar.getTime());
+
                         birthday.setText(fecha);
                     }
                 }, 2022, mes, dia);

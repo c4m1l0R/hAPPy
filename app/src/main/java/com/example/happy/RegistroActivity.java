@@ -1,13 +1,16 @@
 package com.example.happy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -81,6 +86,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         // EVENTO CALENDARIO
         textBirthDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -93,13 +99,19 @@ public class RegistroActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        String fecha = dayOfMonth + "/" + month + "/" + year;
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, month, dayOfMonth);
+
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String fecha = format.format(calendar.getTime());
                         textBirthDate.setText(fecha);
+
                     }
                 }, 2022, mes, dia);
 
                 datePickerDialog.show();
             }
+
         });
 
 
@@ -190,6 +202,19 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == event.KEYCODE_BACK){
+
+            Intent logPagina = new Intent(RegistroActivity.this, LogActivity.class);
+            startActivity(logPagina);
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     //MUESTRA ERRORES PERSONALIZADOS
     private void dameToastdeerror(String error) {
