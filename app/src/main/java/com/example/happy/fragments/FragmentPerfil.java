@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.happy.R;
 import com.example.happy.adapter.AmigoAdapter;
 import com.example.happy.adapter.AmigoPerfilAdapter;
+import com.example.happy.adapter.HoyAdapter;
 import com.example.happy.adapter.RegaloAdapterAmigo;
 import com.example.happy.modelos.Amigo;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -55,9 +56,9 @@ public class FragmentPerfil extends Fragment {
 
     //RECYCLERVIEW
     private RecyclerView mRecycler;
-    private RecyclerView hoyRecicler;
     private AmigoPerfilAdapter mAdapter;
-    private AmigoPerfilAdapter amigoPerfilAdapter;
+    private RecyclerView hoyRecicler;
+    private HoyAdapter hoyAdapter;
 
     public FragmentPerfil() {
         // Required empty public constructor
@@ -153,11 +154,12 @@ public class FragmentPerfil extends Fragment {
         Query query = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
                 collection("amigos").orderBy("birthday").startAt(timeStamp).endAt(timeStamp+'\uf8ff');
 
-        FirestoreRecyclerOptions <Amigo> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Amigo>().
+        FirestoreRecyclerOptions <Amigo> fr = new FirestoreRecyclerOptions.Builder<Amigo>().
                 setQuery(query, Amigo.class).build();
 
-        amigoPerfilAdapter = new AmigoPerfilAdapter(firestoreRecyclerOptions);
-        hoyRecicler.setAdapter(amigoPerfilAdapter);
+        hoyAdapter = new HoyAdapter(fr);
+        hoyAdapter.notifyDataSetChanged();
+        hoyRecicler.setAdapter(hoyAdapter);
 
     }
 
@@ -181,6 +183,7 @@ public class FragmentPerfil extends Fragment {
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
+        hoyAdapter.startListening();
     }
 
     @Override
@@ -188,5 +191,8 @@ public class FragmentPerfil extends Fragment {
         super.onStop();
 
         mAdapter.stopListening();
+        hoyAdapter.stopListening();
     }
+
+
 }
