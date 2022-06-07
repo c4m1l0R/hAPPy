@@ -68,7 +68,7 @@ public class FragmentAnadirAmigo extends Fragment {
                                         HashMap<Object, String> map = new HashMap<>();
                                         map.put("id", codigoAmigo.getText().toString());
 
-                                        obtenerDatosAmigo(v);
+                                        comprobarQueExisteId(codigoAmigo.getText().toString(), v);
 
                                     }else{
 
@@ -91,6 +91,24 @@ public class FragmentAnadirAmigo extends Fragment {
                     Navigation.findNavController(v).navigate(R.id.fragmentBandeja);
                 }
 
+            }
+        });
+
+    }
+
+    private void comprobarQueExisteId( String id, View v){
+
+        firebaseFirestore.collection("users").document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if(value.exists()){
+
+                    obtenerDatosAmigo(v);
+                }else{
+
+                    Toast.makeText(getActivity(), "No existe el código hAPPy", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

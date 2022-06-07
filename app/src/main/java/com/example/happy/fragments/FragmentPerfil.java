@@ -98,9 +98,11 @@ public class FragmentPerfil extends Fragment {
         hoyRecicler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //MÉTODOS
+        comprobarCumpleUser();
         cargarCumpleHoy();
         cargarDatos();
         caragrAmigos();
+
 
         //EVENTOS
         ajustes.setOnClickListener(new View.OnClickListener() {
@@ -194,5 +196,53 @@ public class FragmentPerfil extends Fragment {
         hoyAdapter.stopListening();
     }
 
+    private void comprobarCumpleUser(){
 
+        System.out.println("Entro a cumple");
+        String timeStamp = new SimpleDateFormat("dd/MM").format(Calendar.getInstance().getTime());
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot document) {
+
+                String format="";
+                String diaMes = document.get("birthday").toString();
+                char[] caracteres = diaMes.toCharArray();
+                for(int i = 0; i < 5; i++){
+
+                    format = format + caracteres[i];
+                }
+
+                if (format.equals(timeStamp)) {
+
+                    Toast.makeText(getActivity(), "¡HOY ES TU CUMPLEAÑOS! ¡FELICIDADES!", Toast.LENGTH_SHORT).show();
+
+                    borrarRegalos();
+
+                }
+            }
+        });
+    }
+
+
+    private void borrarRegalos(){
+
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                collection("regalos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot query) {
+
+                       for(int i = 0; query.getDocuments().isEmpty() ; i++){
+
+                            borrarListaRegalos(query.getDocuments().get(i).getId());
+
+                        }
+                    }
+                });
+
+    }
+
+    private void borrarListaRegalos(String idRegalo){
+        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                collection("regalos").document(idRegalo).delete();
+    }
 }
