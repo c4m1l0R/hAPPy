@@ -25,6 +25,7 @@
             android:fontFamily="@font/poppin"
             android:text="Nombre"
             android:textColor="@color/black"
+            android:maxLines="1"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppin"
             android:text="Link"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />

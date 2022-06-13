@@ -29,7 +29,7 @@ public class HoyAdapter extends FirestoreRecyclerAdapter<Amigo, HoyAdapter.ViewH
         DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
         final String id = documentSnapshot.getId();
 
-        viewHolder.nombreAmigo.setText(amigo.getNombre());
+        viewHolder.nombreAmigo.setText(amigo.getNombre() +" "+ amigo.getApellido1());
         viewHolder.idAmigo.setText(amigo.getIdAmigo());
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {

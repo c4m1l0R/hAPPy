@@ -153,8 +153,11 @@ public class FragmentPerfil extends Fragment {
 
         String timeStamp = new SimpleDateFormat("dd/MM").format(Calendar.getInstance().getTime());
 
+
         Query query = firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
                 collection("amigos").orderBy("birthday").startAt(timeStamp).endAt(timeStamp+'\uf8ff');
+
+        System.out.println("entro");
 
         FirestoreRecyclerOptions <Amigo> fr = new FirestoreRecyclerOptions.Builder<Amigo>().
                 setQuery(query, Amigo.class).build();
@@ -162,6 +165,7 @@ public class FragmentPerfil extends Fragment {
         hoyAdapter = new HoyAdapter(fr);
         hoyAdapter.notifyDataSetChanged();
         hoyRecicler.setAdapter(hoyAdapter);
+
 
     }
 
@@ -226,22 +230,29 @@ public class FragmentPerfil extends Fragment {
 
     private void borrarRegalos(){
 
-        firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
-                collection("regalos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot query) {
+        try {
+            System.out.println("entro a borrar regalo");
+            firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
+                    collection("regalos").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot document) {
 
-                       for(int i = 0; query.getDocuments().isEmpty() ; i++){
+                            for(int i = 0; i < document.getDocuments().size(); i++){
 
-                            borrarListaRegalos(query.getDocuments().get(i).getId());
+                                borrarListaRegalos(document.getDocuments().get(i).getId());
+                            }
 
                         }
-                    }
-                });
+                    });
+        }catch(IndexOutOfBoundsException e){
 
+
+        }
     }
 
     private void borrarListaRegalos(String idRegalo){
+
+        System.out.println("elimino regalo numer "+ idRegalo);
         firebaseFirestore.collection("users").document(firebaseAuth.getCurrentUser().getUid()).
                 collection("regalos").document(idRegalo).delete();
     }
